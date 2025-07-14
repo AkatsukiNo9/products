@@ -1,242 +1,88 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
-*/
-
-// 仮の作品データ
-const works = [
-  {
-    year: 2024,
-    author: "高橋 次郎",
-    title: "記憶の断片",
-    Genre: "彫刻学科",
-    imageUrl: "Thumbnails/sample_4.png",
-    appUrl: "works/2024/kioku-no-danpen/"
-  },
-  {
-    year: 2024,
-    author: "伊藤 三郎",
-    title: "光と影のダンス",
-    Genre: "デザイン情報学科",
-    imageUrl: "Thumbnails/sample_5.png"
-  },
-  {
-    year: 2024,
-    author: "渡辺 久美子",
-    title: "鉄の心臓",
-    Genre: "彫刻学科",
-    imageUrl: "Thumbnails/sample_6.png"
-  },
-  {
-    year: 2023,
-    author: "山本 良子",
-    title: "水中のささやき",
-    Genre: "油絵学科",
-    imageUrl: "Thumbnails/sample_7.png"
-  },
-  {
-    year: 2023,
-    author: "中村 健太",
-    title: "星屑のポートレート",
-    Genre: "視覚伝達デザイン学科",
-    imageUrl: "Thumbnails/sample_8.png"
-  },
-  {
-    year: 2023,
-    author: "小林 愛",
-    title: "都市の鼓動",
-    Genre: "デザイン情報学科",
-    imageUrl: "Thumbnails/sample_9.png"
-  },
-  {
-    year: 2022,
-    author: "加藤 誠",
-    title: "風の彫刻",
-    Genre: "彫刻学科",
-    imageUrl: "Thumbnails/sample_10.png"
-  },
-  {
-    year: 2022,
-    author: "吉田 沙羅",
-    title: "色の交響曲",
-    Genre: "油絵学科",
-    imageUrl: "Thumbnails/sample_11.png"
-  },
-  {
-    year: 2022,
-    author: "山田 大輔",
-    title: "サイバーパンク・ナイト",
-    Genre: "視覚伝達デザイン学科",
-    imageUrl: "Thumbnails/sample_12.png"
-  },
-  {
-    year: 2021,
-    author: "斎藤 一",
-    title: "時の流れ",
-    Genre: "油絵学科",
-    imageUrl: "Thumbnails/sample_13.png"
-  },
-  {
-    year: 2020,
-    author: "藤田 五郎",
-    title: "黎明",
-    Genre: "デザイン情報学科",
-    imageUrl: "Thumbnails/sample_14.png"
-  },
-  {
-    year: 2019,
-    author: "松本 恵",
-    title: "再生",
-    Genre: "彫刻学科",
-    imageUrl: "Thumbnails/sample_15.png"
-  },
-];
-
-document.addEventListener('DOMContentLoaded', () => {
-  const years = [2024, 2023, 2022, 2021, 2020, 2019];
-  
-  // Check for year in URL query parameters
-  const params = new URLSearchParams(window.location.search);
-  const yearFromUrl = parseInt(params.get('year') || '', 10);
-  let currentYear = years.includes(yearFromUrl) ? yearFromUrl : 2024;
-
-  const yearSelector = document.getElementById('year-selector');
-  const selectedYearEl = document.getElementById('selected-year');
-  const yearDropdown = document.getElementById('year-dropdown');
-  const galleryGrid = document.getElementById('gallery-grid');
-
-
-  const renderGallery = (year) => {
-    if (!galleryGrid) return;
-    galleryGrid.innerHTML = ''; // Clear existing items
-    
-    const filteredWorks = works.filter(work => work.year === year);
-    
-    if (filteredWorks.length === 0) {
-        galleryGrid.innerHTML = `<p class="no-results">この年度の作品はありません。</p>`;
-        return;
-    }
-
-    filteredWorks.forEach(work => {
-      const gridItemLink = document.createElement('a');
-      gridItemLink.className = 'grid-item-link';
-      // If appUrl is not provided, prevent navigation.
-      if (work.appUrl) {
-        gridItemLink.href = work.appUrl;
-      } else {
-        gridItemLink.href = '#';
-        gridItemLink.addEventListener('click', (e) => e.preventDefault());
-        gridItemLink.style.cursor = 'default';
-      }
-      
-      const gridItemHTML = `
-        <div class="grid-item ${!work.appUrl ? 'no-link' : ''}">
-          <div class="grid-item-image-wrapper">
-            <img src="${work.imageUrl}" alt="${work.title}" loading="lazy">
-          </div>
-          <div class="grid-item-info">
-            <h3 class="work-title">${work.title}</h3>
-            <p class="work-genre">ジャンル：${work.Genre}</p>
-            <p class="work-author">作者：${work.author}</p>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XXX大学 卒業・修了制作展</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="header-left">
+        <img src="Thumbnails/logo.png" alt="XXX大学 ロゴ" class="header-logo">
+        <h1 class="header-title">XXX大学<br>プログラミング制作展示</h1>
+        <p class="header-description">この作品集は、本学で学んだ学生たちの制作の成果を、<br>
+        本学を目指す受験生をはじめ、より多くの方々にご覧いただくためにまとめたものです。<br>
+        ここに掲載されているのは、各年度に制作された作品です。</p>
+      </div>
+      <div class="header-right">
+        <div class="slideshow-container">
+          <img src="Thumbnails/slideshow_1.png" class="slide active" alt="スライドショー画像 1">
+          <img src="Thumbnails/slideshow_2.png" class="slide" alt="スライドショー画像 2">
+          <img src="Thumbnails/slideshow_3.png" class="slide" alt="スライドショー画像 3">
+          <img src="Thumbnails/slideshow_4.png" class="slide" alt="スライドショー画像 4">
+          <img src="Thumbnails/slideshow_5.png" class="slide" alt="スライドショー画像 5">
+        </div>
+        <div class="slide-indicators">
+          <span class="indicator active" data-slide-to="0"></span>
+          <span class="indicator" data-slide-to="1"></span>
+          <span class="indicator" data-slide-to="2"></span>
+          <span class="indicator" data-slide-to="3"></span>
+          <span class="indicator" data-slide-to="4"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="main-content">
+      <div class="gallery-controls">
+        <div class="year-selector-container">
+          <button class="year-selector" id="year-selector" aria-haspopup="true" aria-expanded="false">
+            <span id="selected-year">2024</span>
+            <span id="year-selector-icon" class="selector-icon">∨</span>
+          </button>
+          <div class="year-dropdown" id="year-dropdown" role="menu">
+            <!-- 年度はindex.jsによって動的に挿入されます -->
           </div>
         </div>
-      `;
-      gridItemLink.innerHTML = gridItemHTML;
-      galleryGrid.appendChild(gridItemLink);
-    });
-  };
+      </div>
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- 作品はindex.jsによって動的に挿入されます -->
+      </div>
+    </div>
+  </main>
 
-  const updateDropdown = () => {
-    if (!yearDropdown) return;
-    yearDropdown.innerHTML = '';
-    years.forEach(year => {
-      const option = document.createElement('div');
-      option.className = 'year-option';
-      option.textContent = year.toString();
-      option.setAttribute('data-year', year.toString());
-      option.setAttribute('role', 'menuitem');
-      if (year === currentYear) {
-        option.classList.add('selected');
-      }
-      option.addEventListener('click', (e) => {
-        e.stopPropagation();
-        currentYear = year;
-        if (selectedYearEl) {
-            selectedYearEl.textContent = year.toString();
-        }
-        // Update URL without reloading the page
-        const newUrl = `${window.location.pathname}?year=${currentYear}`;
-        window.history.pushState({path:newUrl}, '', newUrl);
+  <footer>
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="footer-notes">
+          <p>
+            <strong>● 写真について</strong><br>
+            掲載された作品写真・データは、各優秀賞受賞者が卒業・修了制作として<br>
+            提出したすべての作品を網羅しているものではありません。<br>
+            「卒業・修了制作展」の出品作品を中心として収録していますが、<br>
+            写真撮影は「卒業制作・修了制作優秀作品展」会場の場合もあります。
+          </p>
+          <p>
+            <strong>● 教員の職位について</strong><br>
+            教員の職位については、当該年度時点での職位で掲載しています。
+          </p>
+        </div>
+      </div>
+      <div class="footer-right">
+        <a href="https://www.example-university.ac.jp" target="_blank" rel="noopener noreferrer" class="school-link">
+          <img src="Thumbnails/logo.png" alt="XXX大学 ロゴ" class="school-logo">
+          <span>＞学校サイトへはこちらから</span>
+        </a>
+      </div>
+    </div>
+    <p class="copyright">&copy; XXX University. All Rights Reserved.</p>
+  </footer>
 
-        renderGallery(currentYear);
-        updateDropdown(); // Re-render to update selected state
-        toggleDropdown(false);
-      });
-      yearDropdown.appendChild(option);
-    });
-  };
-  
-  const toggleDropdown = (show) => {
-    if (!yearDropdown || !yearSelector) return;
-
-    const isVisible = yearDropdown.classList.contains('show');
-    const newVisibility = show !== undefined ? show : !isVisible;
-    
-    yearDropdown.classList.toggle('show', newVisibility);
-    yearSelector.setAttribute('aria-expanded', newVisibility.toString());
-  };
-
-  if (yearSelector) {
-    if(selectedYearEl) {
-      selectedYearEl.textContent = currentYear.toString();
-    }
-    yearSelector.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleDropdown();
-    });
-  }
-
-  document.addEventListener('click', () => {
-    toggleDropdown(false);
-  });
-
-  // Initial render
-  renderGallery(currentYear);
-  updateDropdown();
-
-  // Slideshow Logic
-  const slides = document.querySelectorAll('.slide');
-  const indicators = document.querySelectorAll('.indicator');
-  if (slides.length > 0) {
-    let currentSlide = 0;
-    const slideInterval = 5000; // 5秒ごとに切り替え
-
-    const showSlide = (index) => {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
-      });
-      indicators.forEach((indicator, i) => {
-        indicator.classList.toggle('active', i === index);
-      });
-    };
-
-    const nextSlide = () => {
-      currentSlide = (currentSlide + 1) % slides.length;
-      showSlide(currentSlide);
-    };
-
-    let intervalId = setInterval(nextSlide, slideInterval);
-    
-    indicators.forEach(indicator => {
-      indicator.addEventListener('click', () => {
-        const slideTo = parseInt(indicator.getAttribute('data-slide-to') || '0');
-        if (!isNaN(slideTo) && slideTo !== currentSlide) {
-          currentSlide = slideTo;
-          showSlide(currentSlide);
-          clearInterval(intervalId);
-          intervalId = setInterval(nextSlide, slideInterval);
-        }
-      });
-    });
-  }
-});
+  <script type="module" src="index.js"></script>
+</body>
+</html>
