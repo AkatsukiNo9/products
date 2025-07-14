@@ -5,16 +5,19 @@ products/
 ├── works/
 │   └── 2024/
 │       └── kioku-no-danpen/
-│           ├── index.html
+│           ├── concept.pdf (コンセプトや企画書)
 │           ├── detail.js
-│           ├── concept.pdf
+│           ├── index.html
+|           ├── style.css 
+|           ├── summary.json (作品情報)
+|           ├── thumbnail.png (作品のサムネイル画像)
 │           └── app/
+│               ├── app.js
 │               ├── index.html
-│               ├── style.css
-│               └── script.js
+│               └── style.css
 ├── Thumbnails/
-│   └── logo.png
-│   └── ...（作品サムネイル画像など）
+│   └── logo.png (学校ロゴ)
+│   └── slideshow_1.png（スライドショー画像１～５など共通で表示するもの）
 ├── README.md
 └── ...（その他管理ファイル）
 ```
