@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>ウェブ楽器</title>
+    <link rel="stylesheet" href="index.css">
+    <script type="module" src="index.js"></script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="app-container">
+        <h1>インタラクティブシンセサイザー</h1>
+        <div id="controls">
+            <div class="control-group">
+                <label for="max-volume" title="楽器エリアのY軸の上端（一番上）に対応する音量を0から100の間で設定します。">最大音量 (0-100):</label>
+                <input type="number" id="max-volume" value="100" min="0" max="100" aria-label="最大音量" title="楽器エリアのY軸の上端（一番上）に対応する音量を0から100の間で設定します。">
+            </div>
+            <div class="control-group">
+                <label for="max-pitch" title="楽器エリアのX軸の右端に対応する音の高さを、中央のA4音(440Hz)からのオクターブ差で設定します。例: 0はA4、1は1オクターブ上のA5。">最大ピッチ (A4からのオクターブ差):</label>
+                <input type="number" id="max-pitch" value="0.75" step="0.01" aria-label="最大ピッチオフセット（オクターブ単位）" title="楽器エリアのX軸の右端に対応する音の高さを、中央のA4音(440Hz)からのオクターブ差で設定します。例: 0はA4、1は1オクターブ上のA5。">
+            </div>
+            <div class="control-group">
+                <label for="instrument-type" title="演奏される音の基本的な波形（音色）を選択します。">楽器の音色:</label>
+                <select id="instrument-type" aria-label="楽器の音色タイプ" title="演奏される音の基本的な波形（音色）を選択します。">
+                    <option value="sine">サイン波 (フルート風)</option>
+                    <option value="square">矩形波 (レトロ)</option>
+                    <option value="sawtooth">ノコギリ波 (シンセ風)</option>
+                    <option value="triangle">三角波 (スムーズ)</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="toggle-pitch-mode" title="音の高さの変化の仕方を設定します。「連続」では滑らかに、「離散」では常に半音階の特定の音に固定されます。">ピッチモード:</label>
+                <select id="toggle-pitch-mode" aria-label="ピッチの連続・離散モードを切り替える" title="音の高さの変化の仕方を設定します。「連続」では滑らかに、「離散」では常に半音階の特定の音に固定されます。">
+                    <option value="continuous">連続</option>
+                    <option value="discrete" selected>離散 (半音階にスナップ)</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="scale-selector" title="「連続」ピッチモード時の音階ガイドやルート音強調に使用する音階を選択します。「離散」モードでは常に半音階が使用されるため、この設定は影響しません。">音階:</label>
+                <select id="scale-selector" aria-label="選択中の音階" title="「連続」ピッチモード時の音階ガイドやルート音強調に使用する音階を選択します。「離散」モードでは常に半音階が使用されるため、この設定は影響しません。">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="min-volume" title="楽器エリアのY軸の下端（一番下）に対応する音量を0から100の間で設定します。">最小音量 (0-100):</label>
+                <input type="number" id="min-volume" value="0" min="0" max="100" aria-label="最小音量" title="楽器エリアのY軸の下端（一番下）に対応する音量を0から100の間で設定します。">
+            </div>
+            <div class="control-group">
+                <label for="min-pitch" title="楽器エリアのX軸の左端に対応する音の高さを、中央のA4音(440Hz)からのオクターブ差で設定します。例: 0はA4、-1は1オクターブ下のA3。">最小ピッチ (A4からのオクターブ差):</label>
+                <input type="number" id="min-pitch" value="-0.75" step="0.01" aria-label="最小ピッチオフセット（オクターブ単位）" title="楽器エリアのX軸の左端に対応する音の高さを、中央のA4音(440Hz)からのオクターブ差で設定します。例: 0はA4、-1は1オクターブ下のA3。">
+            </div>
+            <div class="control-group">
+                <label for="note-notation-selector" title="楽器エリアに表示される音名の表記法（ドレミファソラシまたはC D E F G A B）を選択します。">音名表記:</label>
+                <select id="note-notation-selector" aria-label="音名の表記方法を選択" title="楽器エリアに表示される音名の表記法（ドレミファソラシまたはC D E F G A B）を選択します。">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="toggle-note-lines" title="楽器エリア内の音の高さのガイドライン（実線または点線）と音名の表示/非表示を切り替えます。">音階の線を表示:</label>
+                <input type="checkbox" id="toggle-note-lines" checked aria-label="音階の線の表示を切り替える" title="楽器エリア内の音の高さのガイドライン（実線または点線）と音名の表示/非表示を切り替えます。">
+            </div>
+            <div class="control-group help-button-container">
+                <button id="help-button" class="help-toggle-button" aria-haspopup="dialog" aria-expanded="false" title="このアプリケーションの詳しい仕様と使い方を開きます。">仕様・使い方</button>
+            </div>
+        </div>
+
+        <div id="instrument-area" role="application" aria-label="楽器エリア。クリック＆ドラッグで演奏します。X軸が音高、Y軸が音量をコントロールします。" title="演奏エリア: ここをクリック＆ドラッグして音を鳴らします。X軸（横）が音高、Y軸（縦）が音量をコントロールします。">
+            <div id="instrument-area-visuals">
+                 <span class="axis-label x-axis-label-low">低音</span>
+                 <span class="axis-label x-axis-label-high">高音</span>
+                 <span class="axis-label y-axis-label-low">小音量</span>
+                 <!-- Removed y-axis-label-high (大音量) -->
+                 <div id="note-indicators-container">
+                    <!-- Note indicator lines and snap boundaries will be dynamically added here by JavaScript -->
+                 </div>
+                 <div id="click-animations-container">
+                    <!-- Click/drag animations will be dynamically added here -->
+                 </div>
+            </div>
+        </div>
+
+        <div id="bottom-bar">
+            <div id="octave-buttons-container" role="toolbar" aria-label="オクターブ選択">
+                <button class="octave-selector-button" data-octave-shift="-2" aria-label="オクターブを-2に設定" title="全体の音高を2オクターブ下げます。">-2</button>
+                <button class="octave-selector-button" data-octave-shift="-1" aria-label="オクターブを-1に設定" title="全体の音高を1オクターブ下げます。">-1</button>
+                <button class="octave-selector-button" data-octave-shift="0" aria-label="オクターブを0に設定" title="全体の音高を基準オクターブに設定します。">0</button>
+                <button class="octave-selector-button" data-octave-shift="1" aria-label="オクターブを+1に設定" title="全体の音高を1オクターブ上げます。">+1</button>
+                <button class="octave-selector-button" data-octave-shift="2" aria-label="オクターブを+2に設定" title="全体の音高を2オクターブ上げます。">+2</button>
+            </div>
+            <div id="current-sound-info-display">
+                <label for="current-frequency-display" title="現在発音されている音の周波数をヘルツ(Hz)で表示します。">現在のピッチ:</label>
+                <span id="current-frequency-display" class="info-display" aria-live="polite">--- Hz</span>
+                <label for="current-volume-display" class="sound-info-label-volume" title="現在発音されている音の音量を0から100の範囲で表示します。">現在の音量:</label>
+                <span id="current-volume-display" class="info-display" aria-live="polite">---</span>
+            </div>
+        </div>
+
+        <!-- Help Modal Structure -->
+        <div id="help-modal-overlay" class="help-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="help-modal-title" aria-hidden="true">
+            <div class="help-modal-content">
+                <button class="modal-close-button" aria-label="閉じる">&times;</button>
+                <h2 id="help-modal-title">インタラクティブシンセサイザー 仕様・使い方</h2>
+                <p>黄色の楽器エリア内でマウスをクリック（またはタッチ）したまま動かすと音が生成されます。</p>
+                
+                <h3>基本操作:</h3>
+                <ul>
+                    <li><strong>楽器エリア:</strong>
+                        <ul>
+                            <li><strong>X軸（横方向）:</strong> 音の高さをコントロールします。右に行くほど音が高くなります。</li>
+                            <li><strong>Y軸（縦方向）:</strong> 音の大きさをコントロールします。上に行くほど音が大きくなります。</li>
+                            <li><strong>音階の視覚化:</strong>
+                                <ul>
+                                    <li><strong>連続モード時:</strong> 「音階の線を表示」がオンの場合、楽器エリア内に表示される実線は、選択された音階の各音の（実際のピッチに基づいた）位置を示します。基準音A4は太線で、各オクターブのルート音は色付きの線で表示されることがあります。音名は線に沿って表示されます。</li>
+                                    <li><strong>離散モード時:</strong> 「音階の線を表示」がオンの場合、楽器エリアは常に半音階（全ての半音）に基づいて均等な区画に分割され、各区画の境界が点線で示されます。音名はこの各半音の区画の中央に配置されます。「音階」の設定は、このモードの表示には影響しません。表示される音名は「音名表記」の設定に従います。「音階の線を表示」がオフの場合は、点線も音名も表示されません。</li>
+                                    <li>ピッチ範囲、オクターブシフト、または（連続モード時は）選択音階を変更すると、これらのガイドラインも追従します。表示される音名は「音名表記」で選択した形式（ドレミまたはCDE）に従います。</li>
+                                </ul>
+                            </li>
+                            <li><strong>クリックアニメーション:</strong> 楽器エリアをクリックまたはドラッグすると、その位置からカラフルな図形が広がるアニメーションが表示されます。</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>コントロールパネル:</h3>
+                <ul>
+                    <li><strong>最小音量 / 最大音量:</strong> 楽器エリアのY軸に対応する音量の範囲を0から100の間で設定します。</li>
+                    <li><strong>最小ピッチ / 最大ピッチ:</strong> 楽器エリアのX軸に対応する音の高さの範囲を、中央のA音(A4 = 440Hz)からのオクターブ差で設定します。例えば、「0」はA4、「1」は1オクターブ上のA5、「-1」は1オクターブ下のA3を意味します。</li>
+                    <li><strong>楽器の音色:</strong> 発音される音の基本的な波形（サイン波、矩形波など）を選択します。</li>
+                    <li><strong>音階:</strong> 「連続」ピッチモード時に、楽器エリアの音階線や音のガイドとして使用される音階の種類（メジャースケール、マイナースケールなど）を選択します。「連続」モードではルート音が強調表示されることがあります。「離散」ピッチモードでは、この設定に関わらず常に半音階が表示・演奏されるため、この設定は影響しません。</li>
+                    <li><strong>音名表記:</strong> 楽器エリアの音階線に表示される音名の表記法を「ドレミファソラシ」または「C D E F G A B」から選択します。</li>
+                    <li><strong>音階の線を表示:</strong> 楽器エリア内の音階の視覚的ガイドライン（連続モード時は実線と音名、離散モード時は点線の境界線と音名）の表示/非表示を切り替えます。この設定がオフの場合、ガイドラインは一切表示されませんが、「離散」ピッチモードでは音は常に半音階にスナップします。</li>
+                    <li><strong>ピッチモード:</strong> (デフォルト: 離散)
+                        <ul>
+                            <li><strong>連続:</strong> マウス/タッチ位置に応じて、音の高さが滑らかに変化します。</li>
+                            <li><strong>離散 (半音階にスナップ):</strong> ポインターが楽器エリア内のどの半音の区画（点線で区切られた領域）にあるかに基づいて、その区画に対応する半音階の音にピッチが固定されます。「音階」設定は影響しません。ポインターの精密な横位置ではなく、その区画全体が特定の音を表します。ピアノの鍵盤のように、特定の音高のみが鳴ります。</li>
+                        </ul>
+                    </li>
+                    <li><strong>仕様・使い方ボタン:</strong> このヘルプウィンドウを表示/非表示します。</li>
+                </ul>
+
+                <h3>画面下部:</h3>
+                <ul>
+                    <li><strong>オクターブボタン (-2, -1, 0, +1, +2):</strong> 楽器全体の基準となるオクターブを5段階で切り替えます。選択されたオクターブ値が、「最小/最大ピッチ」で設定した音高範囲全体に加算（または減算）されて、最終的な音の高さが決まります。</li>
+                    <li><strong>現在のピッチ / 現在の音量:</strong> 楽器エリアで音を鳴らしている間、その音の周波数(Hz)と音量(0-100)をリアルタイムで表示します。</li>
+                </ul>
+                <p class="modal-close-hint"><em>この説明を閉じるには、「仕様・使い方」ボタンを再度押すか、説明エリアの外側をクリック、または右上の「×」ボタンを押してください。キーボードのEscキーでも閉じることができます。</em></p>
+            </div>
+        </div>
+    </div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

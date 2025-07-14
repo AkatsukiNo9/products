@@ -6,6 +6,14 @@
 // 仮の作品データ
 const works = [
   {
+    year: 2025,
+    author: "ラーメン二郎",
+    title: "インタラクティブシンセサイザー",
+    Genre: "電子楽器",
+    imageUrl: "works/2025/anogakki/thumbnail.png",
+    appUrl: "works/2025/anogakki/"
+  },
+  {
     year: 2024,
     author: "高橋 次郎",
     title: "記憶の断片",
@@ -93,7 +101,7 @@ const works = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  const years = [2024, 2023, 2022, 2021, 2020, 2019];
+  const years = [2025, 2024, 2023, 2022, 2021, 2020, 2019];
   
   // Check for year in URL query parameters
   const params = new URLSearchParams(window.location.search);

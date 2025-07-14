@@ -1,0 +1,550 @@
+:root {
+    --miku-teal: #39C5BB; /* 初音ミクの代表的な青緑 */
+    --miku-teal-dark: #2E9A91;
+    --miku-pink: #FF528E; /* アクセントピンク */
+    --miku-black: #222222; /* ややソフトな黒 */
+    --miku-grey: #888888;
+    --miku-light-grey: #f0f2f5; /* 明るい背景用グレー */
+    --miku-dark-grey: #4d4d4d;
+    --miku-border-grey: #cccccc;
+    --miku-white: #ffffff;
+    --instrument-bg: #000000; /* 楽器エリアは黒 */
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: var(--miku-light-grey);
+    color: var(--miku-black);
+    overflow: hidden; /* ページ全体のスクロールを禁止 */
+    font-size: calc(0.9vmin + 5px); 
+}
+
+#app-container {
+    background-color: var(--miku-white);
+    padding: 2vmin; 
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+
+    aspect-ratio: 16 / 9;
+    height: 90vh; 
+    width: calc(90vh * 16 / 9); 
+    
+    max-width: 95vw; 
+    max-height: calc(95vw * 9 / 16);
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+}
+
+h1 {
+    color: var(--miku-teal);
+    margin-top: 0;
+    margin-bottom: 1.5vmin; 
+    font-size: 2.2em; 
+    flex-shrink: 0;
+    font-weight: 600;
+}
+
+#controls {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Explicitly 5 columns */
+    gap: 1.2vmin; /* Slightly increased gap for better spacing */
+    margin-bottom: 1.5vmin;
+    padding: 1.5vmin; 
+    background-color: #e8e8e8; 
+    border: 1px solid var(--miku-border-grey);
+    border-radius: 6px;
+    flex-shrink: 0;
+    align-items: stretch; 
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5vmin;
+    justify-content: flex-start; 
+}
+
+.control-group label {
+    font-size: 1em; 
+    color: var(--miku-dark-grey);
+    margin-bottom: 0.3vmin;
+    font-weight: 500;
+}
+
+.control-group input[type="number"],
+.control-group select,
+.control-group input[type="checkbox"] {
+    width: 100%;
+    padding: 0.8vmin; 
+    border: 1px solid var(--miku-border-grey);
+    border-radius: 4px;
+    font-size: 1em; 
+    box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background-color: var(--miku-white);
+    color: var(--miku-black);
+}
+.control-group input[type="checkbox"] {
+    width: auto; 
+    margin-top: 0.5vmin; 
+    align-self: flex-start; 
+    accent-color: var(--miku-teal); /* チェックボックスの色 */
+}
+
+
+.control-group input[type="number"]:focus,
+.control-group select:focus,
+.control-group input[type="checkbox"]:focus {
+    border-color: var(--miku-teal);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(57, 197, 187, 0.3); /* miku-teal の薄い影 */
+}
+
+.control-group label + input[type="checkbox"] {
+    margin-top: 0; 
+}
+
+/* General .info-display, specific overrides for #current-sound-info-display */
+.info-display {
+    font-weight: bold;
+    color: var(--miku-teal);
+    font-size: 1em;
+    padding: 0.3vmin 0;
+    min-height: 1.2em; 
+    display: inline-block; /* This will be overridden for #current-sound-info-display */
+    text-align: left;
+    width: 100%; /* This will be overridden for #current-sound-info-display */
+}
+
+
+#instrument-area {
+    background-color: var(--instrument-bg); 
+    border: 2px solid var(--miku-dark-grey); /* 黒に合うように暗いボーダー */
+    cursor: crosshair;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden; 
+    touch-action: none; 
+    flex-grow: 1; 
+    min-height: 100px; 
+    /* margin-bottom: 1.5vmin; Now handled by #bottom-bar */
+}
+
+#instrument-area-visuals {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    pointer-events: none; 
+}
+
+#note-indicators-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.note-indicator-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px; 
+    background-color: rgba(136, 136, 136, 0.4); /* var(--miku-grey) with opacity */
+    pointer-events: none;
+    transform: translateX(-0.5px); 
+}
+
+.note-indicator-line.a4 {
+    width: 2px; 
+    background-color: rgba(57, 197, 187, 0.85); /* var(--miku-teal) with more opacity */
+    z-index: 1; 
+}
+
+.note-indicator-line.root-note {
+    background-color: rgba(255, 82, 142, 0.65); /* var(--miku-pink) with opacity */
+}
+.note-indicator-line.a4.root-note { 
+    background-color: rgba(57, 197, 187, 0.9); 
+}
+
+.snap-boundary-indicator {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    border-left: 1px dashed rgba(255, 255, 255, 0.3); 
+    pointer-events: none;
+    transform: translateX(-0.5px);
+    z-index: 0; 
+}
+
+
+.note-indicator-text {
+    position: absolute;
+    top: 3px;
+    /* left is set by JS */
+    font-size: 0.75em; 
+    color: var(--miku-white);
+    background-color: rgba(34, 34, 34, 0.7); 
+    padding: 1px 3px;
+    border-radius: 2px;
+    white-space: nowrap;
+    /* transform: translateX(-50%); for discrete-mode-text specifically if needed, or always if centered */
+}
+/* Specific for continuous mode, text attached to line */
+.note-indicator-line .note-indicator-text {
+    left: 4px; /* Default for continuous mode, relative to line */
+}
+
+/* Specific for discrete mode, text centered in its zone */
+.note-indicator-text.discrete-mode-text {
+    transform: translateX(-50%);
+}
+
+.note-indicator-text.a4-text,
+.note-indicator-line.a4 .note-indicator-text.a4-text-on-line { /* Maintain style for continuous if needed */
+    color: var(--miku-white);
+    background-color: rgba(46, 154, 145, 0.8); 
+    font-weight: bold;
+}
+.note-indicator-text.root-note-text,
+.note-indicator-line.root-note .note-indicator-text.root-note-text-on-line { /* Maintain style for continuous */
+    color: var(--miku-white);
+    background-color: rgba(232, 74, 155, 0.7); 
+}
+
+.axis-label {
+    position: absolute;
+    font-size: 1.0em; 
+    color: var(--miku-light-grey); 
+    background-color: rgba(34, 34, 34, 0.5); 
+    padding: 0.3vmin 0.6vmin;
+    border-radius: 3px;
+    z-index: 10; 
+}
+
+.x-axis-label-low { bottom: 5px; left: 5px; }
+.x-axis-label-high { bottom: 5px; right: 5px; }
+.y-axis-label-low { bottom: 5px; left: 50%; transform: translateX(-50%); writing-mode: vertical-rl; text-orientation: mixed; opacity: 0; } 
+
+
+#bottom-bar {
+    display: grid;
+    grid-template-columns: 1fr auto; /* Octave buttons take most space, sound info takes what it needs */
+    align-items: center;
+    gap: 2vmin; /* Space between octave buttons area and sound info */
+    margin-top: 1.5vmin; /* Space above the bottom bar */
+    margin-bottom: 1vmin; /* Space below the bottom bar */
+    flex-shrink: 0;
+}
+
+#octave-buttons-container {
+    display: flex;
+    justify-content: center; /* Centers buttons within its allocated grid space */
+    gap: 3vmin; 
+    /* margin-bottom: 1.5vmin; No longer needed here */
+    flex-shrink: 0;
+}
+
+#current-sound-info-display {
+    display: flex;
+    align-items: baseline; /* Align text nicely */
+    gap: 0.75vmin; /* Space between items in the sound info display */
+    width: 36ch; /* Fixed width for the container */
+    justify-content: flex-end; /* Align content (labels and values) to the right */
+}
+#current-sound-info-display label {
+    font-size: 1em; 
+    color: var(--miku-dark-grey);
+    font-weight: 500;
+    white-space: nowrap;
+}
+#current-sound-info-display .sound-info-label-volume {
+    margin-left: 1.5vmin; /* Add some extra space before "現在の音量" */
+}
+
+/* Override general .info-display for horizontal layout and apply to fixed-width spans */
+#current-sound-info-display .info-display {
+    font-weight: bold;
+    color: var(--miku-teal);
+    font-size: 1em;
+    padding: 0;
+    min-height: auto; 
+    display: inline-block; /* Allow some block-like properties */
+    text-align: left; /* Text within the span itself is left-aligned */
+    /* width: auto; Let flexbox handle sizing within the fixed-width parent */
+    white-space: nowrap;
+}
+
+
+.octave-selector-button {
+    padding: 1vmin 3vmin; 
+    font-size: 1em; 
+    background-color: var(--miku-dark-grey);
+    color: var(--miku-white);
+    border: 1px solid var(--miku-black);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+    min-width: 80px; 
+    font-weight: 500;
+}
+
+.octave-selector-button:hover {
+    background-color: var(--miku-grey);
+    border-color: var(--miku-dark-grey);
+}
+
+.octave-selector-button.active {
+    background-color: var(--miku-teal);
+    color: var(--miku-white);
+    border-color: var(--miku-teal-dark);
+    box-shadow: 0 2px 4px rgba(57, 197, 187, 0.4);
+}
+
+.help-button-container {
+    justify-content: flex-end; 
+}
+
+.help-toggle-button {
+    padding: 0.8vmin 1.2vmin;
+    font-size: 1em; 
+    background-color: var(--miku-pink); 
+    color: var(--miku-white);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    width: 100%; 
+    box-sizing: border-box; 
+    font-weight: 500;
+}
+
+.help-toggle-button:hover {
+    background-color: #E84A9B; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Help Modal Styles */
+.help-modal-overlay {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); 
+    z-index: 999; 
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px); 
+}
+
+.help-modal-overlay.visible {
+    display: flex; 
+}
+
+.help-modal-content {
+    background-color: var(--miku-white);
+    padding: 2.5vmin; 
+    border-radius: 8px;
+    border: 1px solid var(--miku-teal); 
+    box-shadow: 0 5px 20px rgba(0,0,0,0.35);
+    z-index: 1000; 
+    width: clamp(300px, 80%, 650px); 
+    max-height: 85vh; 
+    overflow-y: auto; 
+    position: relative; 
+    text-align: left;
+    font-size: 1em; 
+}
+
+.help-modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 1em;
+    color: var(--miku-teal);
+    font-size: 1.5em;
+    font-weight: 600;
+}
+.help-modal-content h3 {
+    margin-top: 1.2em;
+    margin-bottom: 0.5em;
+    color: var(--miku-dark-grey);
+    font-size: 1.2em;
+    border-bottom: 1px solid var(--miku-border-grey);
+    padding-bottom: 0.2em;
+    font-weight: 500;
+}
+
+.help-modal-content ul {
+    list-style-type: disc;
+    padding-left: 20px; 
+    margin-bottom: 1em;
+}
+.help-modal-content ul ul {
+    list-style-type: circle;
+    margin-top: 0.3em;
+    margin-bottom: 0.5em;
+}
+
+.help-modal-content li {
+    margin-bottom: 0.5em;
+    line-height: 1.6;
+}
+
+.help-modal-content strong {
+    color: var(--miku-teal); 
+    font-weight: 600;
+}
+.help-modal-content p {
+    line-height: 1.6;
+    margin-bottom: 1em;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: calc(1vmin + 5px); 
+    right: calc(1vmin + 5px);
+    font-size: 2em; 
+    font-weight: bold;
+    color: var(--miku-grey);
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.modal-close-button:hover {
+    color: var(--miku-black);
+}
+
+.modal-close-hint {
+    margin-top: 1.5em;
+    font-size: 0.9em;
+    color: var(--miku-grey);
+    border-top: 1px solid var(--miku-border-grey);
+    padding-top: 1em;
+}
+
+/* Click Animation Styles */
+#click-animations-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; 
+    overflow: hidden; 
+    z-index: 2; 
+}
+
+.expanding-shape {
+    position: absolute;
+    width: 15px; 
+    height: 15px; 
+    opacity: 0.9; 
+    transform: translate(-50%, -50%) scale(0) rotate(0deg); 
+    transition: transform 1.0s cubic-bezier(0.23, 1, 0.32, 1), opacity 1.0s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    pointer-events: none;
+    filter: drop-shadow(0 0 2px currentColor) drop-shadow(0 0 5px currentColor);
+}
+
+.expanding-shape.color-teal {
+    background-color: var(--miku-teal);
+    color: var(--miku-teal); 
+}
+
+.expanding-shape.color-pink {
+    background-color: var(--miku-pink);
+    color: var(--miku-pink); 
+}
+
+.expanding-shape.outline {
+    background-color: transparent !important;
+    border-width: 2px;
+    border-style: solid;
+}
+.expanding-shape.outline.color-teal {
+    border-color: var(--miku-teal);
+    color: var(--miku-teal); 
+}
+.expanding-shape.outline.color-pink {
+    border-color: var(--miku-pink);
+    color: var(--miku-pink); 
+}
+
+
+.expanding-shape.shape-circle {
+    border-radius: 50%;
+}
+
+.expanding-shape.shape-triangle {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    background-color: transparent; 
+}
+.expanding-shape.shape-triangle.outline { 
+     background-color: transparent !important;
+}
+
+
+.expanding-shape.shape-square {
+    background-color: transparent; 
+}
+.expanding-shape.shape-square.outline {
+     background-color: transparent !important;
+}
+
+.expanding-shape.shape-pentagon {
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    background-color: transparent; 
+}
+.expanding-shape.shape-pentagon.outline {
+     background-color: transparent !important;
+}
+
+.expanding-shape.shape-triangle.outline,
+.expanding-shape.shape-square.outline, 
+.expanding-shape.shape-pentagon.outline {
+    background-color: transparent !important;
+}
+.expanding-shape.shape-triangle:not(.outline).color-teal,
+.expanding-shape.shape-square:not(.outline).color-teal,
+.expanding-shape.shape-pentagon:not(.outline).color-teal {
+    background-color: var(--miku-teal);
+}
+.expanding-shape.shape-triangle:not(.outline).color-pink,
+.expanding-shape.shape-square:not(.outline).color-pink,
+.expanding-shape.shape-pentagon:not(.outline).color-pink {
+    background-color: var(--miku-pink);
+}
+
+
+/* Responsive adjustments */
+@media (max-height: 400px), (max-width: 600px) {
+    body {
+      font-size: 10px; 
+    }
+    #controls {
+        grid-template-columns: 1fr; 
+    }
+    .help-modal-content {
+        padding: 15px; 
+    }
+    .modal-close-button {
+        top: 8px;
+        right: 8px;
+    }
+}
