@@ -1,0 +1,464 @@
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Noto Sans JP', 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+  background-color: #f8f8f8;
+  color: #333;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+a:hover {
+  opacity: 0.7;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Link Wrapper for Grid Item */
+.grid-item-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px; /* Match grid-item border-radius */
+  outline: none;
+}
+
+.grid-item-link:focus-visible {
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.5); /* Focus ring */
+}
+
+
+/* Header */
+header {
+  padding: 3rem 2rem;
+  background-color: #fff;
+  /* border-bottom is moved to .header-content */
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  border-bottom: 1px solid black;
+  /* 既存のインジケーター上部余白(0.75rem)を参考に、下部にも余白を追加 + 2px */
+  padding-bottom: calc(0.75rem + 2px); 
+}
+
+.header-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header-logo {
+  width: 150px;
+  height: auto;
+}
+
+.header-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+}
+
+.header-description {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #000000;
+}
+
+.header-right {
+  flex-shrink: 0;
+  width: 50%;
+  max-width: 700px;
+}
+
+.slideshow-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  background-color: #e0e0e0;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 2px solid #000;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.slide-indicators {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.75rem;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+  background-color: #333;
+}
+
+
+/* Main Content */
+main {
+  padding: 4rem 2rem;
+  background-color: #fff;
+}
+
+.main-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.gallery-controls {
+  flex: 0 0 auto;
+  position: relative;
+}
+
+.year-selector-container {
+  position: relative;
+  display: inline-block;
+}
+
+.year-selector {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 3.6rem; /* 6rem * 0.6 */
+  font-weight: 700;
+  color: #000;
+  transition: opacity 0.2s ease;
+}
+
+.year-selector:hover {
+  opacity: 0.8;
+}
+
+.selector-icon {
+  font-size: 1.5rem; /* 2.5rem * 0.6 */
+  font-weight: normal;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.year-selector[aria-expanded="true"] .selector-icon {
+  transform: rotate(180deg);
+}
+
+.year-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffff;
+  z-index: 10;
+  list-style: none;
+  padding: 0.5rem 0;
+  margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  border: 1px solid #e0e0e0;
+}
+
+.year-dropdown.show {
+  display: block;
+}
+
+@keyframes slideDownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.year-option {
+    display: block;
+    text-align: left;
+    padding: 0.1rem 1.5rem;
+    cursor: pointer;
+    font-size: 3.6rem;
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 2px #000;
+    text-stroke: 2px #000;
+    transition: color 0.2s ease, -webkit-text-stroke-width 0.2s ease;
+    line-height: 1.2;
+    opacity: 0; /* Initially hidden for animation */
+}
+
+.year-dropdown.show .year-option {
+  animation: slideDownFadeIn 0.4s ease-out forwards;
+}
+
+/* Staggered animation delay */
+.year-dropdown.show .year-option:nth-child(1) { animation-delay: 0.04s; }
+.year-dropdown.show .year-option:nth-child(2) { animation-delay: 0.08s; }
+.year-dropdown.show .year-option:nth-child(3) { animation-delay: 0.12s; }
+.year-dropdown.show .year-option:nth-child(4) { animation-delay: 0.16s; }
+.year-dropdown.show .year-option:nth-child(5) { animation-delay: 0.20s; }
+.year-dropdown.show .year-option:nth-child(6) { animation-delay: 0.24s; }
+
+
+.year-option:hover {
+    color: #888;
+    -webkit-text-stroke-width: 0px;
+    text-stroke-width: 0px;
+}
+
+.gallery-grid {
+  flex: 1 1 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 1rem;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.grid-item {
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.grid-item-link:hover .grid-item:not(.no-link) {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.grid-item-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 75%; /* 4:3 Aspect Ratio */
+}
+
+.grid-item-image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.grid-item-link:hover .grid-item:not(.no-link) .grid-item-image-wrapper img {
+  transform: scale(1.05);
+}
+
+.grid-item-info {
+  padding: 1.25rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.work-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #222;
+}
+
+.work-genre {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.work-author {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #666;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+
+/* Footer */
+footer {
+  padding: 2rem;
+  background-color: #ffffff;
+  /* border-top is moved to .footer-container */
+  color: #333;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  border-top: 1px solid black;
+  /* copyright部分の余白(2rem)を参考に、上部にも余白を追加 + 2px */
+  padding-top: calc(2rem + 2px);
+}
+
+.footer-left {
+  flex: 1;
+  min-width: 300px;
+}
+
+.footer-notes p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #000000;
+}
+
+.footer-notes p:not(:last-child) {
+    margin-bottom: 1em;
+}
+
+.footer-notes strong {
+    font-weight: 700;
+}
+
+.copyright {
+  font-size: 1.2rem;
+  color: #000000;
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid black;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer-right {
+  flex-shrink: 0;
+}
+
+.school-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.35rem;
+  font-weight: 400;
+}
+
+.school-logo {
+  width: 150px;
+  height: auto;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .main-content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .gallery-controls {
+    margin-bottom: 2rem;
+  }
+  .header-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .header-left {
+    align-items: center;
+  }
+  .header-right {
+    width: 100%;
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+  .year-selector {
+    font-size: 2.4rem; /* 4rem * 0.6 */
+  }
+  .year-option {
+    font-size: 2.4rem;
+  }
+  .selector-icon {
+    font-size: 0.9rem; /* 1.5rem * 0.6 */
+  }
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  .footer-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

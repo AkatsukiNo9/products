@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XXX大学 卒業・修了制作展</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="header-left">
+        <img src="Thumbnails/logo.png" alt="XXX大学 ロゴ" class="header-logo">
+        <h1 class="header-title">XXX大学<br>プログラミング制作展示</h1>
+        <p class="header-description">この作品集は、本学で学んだ学生たちの制作の成果を、<br>
+        本学を目指す受験生をはじめ、より多くの方々にご覧いただくためにまとめたものです。<br>
+        ここに掲載されているのは、各年度に制作された作品です。</p>
+      </div>
+      <div class="header-right">
+        <div class="slideshow-container">
+          <img src="Thumbnails/slideshow_1.png" class="slide active" alt="スライドショー画像 1">
+          <img src="Thumbnails/slideshow_2.png" class="slide" alt="スライドショー画像 2">
+          <img src="Thumbnails/slideshow_3.png" class="slide" alt="スライドショー画像 3">
+          <img src="Thumbnails/slideshow_4.png" class="slide" alt="スライドショー画像 4">
+          <img src="Thumbnails/slideshow_5.png" class="slide" alt="スライドショー画像 5">
+        </div>
+        <div class="slide-indicators">
+          <span class="indicator active" data-slide-to="0"></span>
+          <span class="indicator" data-slide-to="1"></span>
+          <span class="indicator" data-slide-to="2"></span>
+          <span class="indicator" data-slide-to="3"></span>
+          <span class="indicator" data-slide-to="4"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="main-content">
+      <div class="gallery-controls">
+        <div class="year-selector-container">
+          <button class="year-selector" id="year-selector" aria-haspopup="true" aria-expanded="false">
+            <span id="selected-year">2024</span>
+            <span id="year-selector-icon" class="selector-icon">∨</span>
+          </button>
+          <div class="year-dropdown" id="year-dropdown" role="menu">
+            <!-- 年度はindex.tsxによって動的に挿入されます -->
+          </div>
+        </div>
+      </div>
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- 作品はindex.tsxによって動的に挿入されます -->
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="footer-notes">
+          <p>
+            <strong>● 写真について</strong><br>
+            掲載された作品写真・データは、各優秀賞受賞者が卒業・修了制作として<br>
+            提出したすべての作品を網羅しているものではありません。<br>
+            「卒業・修了制作展」の出品作品を中心として収録していますが、<br>
+            写真撮影は「卒業制作・修了制作優秀作品展」会場の場合もあります。
+          </p>
+          <p>
+            <strong>● 教員の職位について</strong><br>
+            教員の職位については、当該年度時点での職位で掲載しています。
+          </p>
+        </div>
+      </div>
+      <div class="footer-right">
+        <a href="https://www.example-university.ac.jp" target="_blank" rel="noopener noreferrer" class="school-link">
+          <img src="Thumbnails/logo.png" alt="XXX大学 ロゴ" class="school-logo">
+          <span>＞学校サイトへはこちらから</span>
+        </a>
+      </div>
+    </div>
+    <p class="copyright">&copy; XXX University. All Rights Reserved.</p>
+  </footer>
+
+  <script type="module" src="index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
