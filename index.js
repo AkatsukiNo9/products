@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Check for year in URL query parameters
   const params = new URLSearchParams(window.location.search);
   const yearFromUrl = parseInt(params.get('year') || '', 10);
-  let currentYear = years.includes(yearFromUrl) ? yearFromUrl : 2024;
+  let currentYear = years.includes(yearFromUrl) ? yearFromUrl : 2025;
 
   const yearSelector = document.getElementById('year-selector');
   const selectedYearEl = document.getElementById('selected-year');
