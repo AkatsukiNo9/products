@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XXX大学 卒業・修了制作展</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <a href="../../../index.html" class="header-logo-link">
+        <img src="../../../Thumbnails/logo.png" alt="XXX大学 ロゴ" class="header-logo">
+      </a>
+      <nav class="breadcrumb">
+        <a href="../../../index.html?year=2024">2024</a>
+        <span class="breadcrumb-separator">&gt;</span>
+        <span class="breadcrumb-current"></span>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="work-author-container">
+        <p class="work-author" id="work-author"></p>
+    </div>
+
+    <div class="main-content">
+      <div class="work-main-area">
+        <div class="iframe-container">
+          <iframe id="work-iframe" src="app/index.html" title="記憶の断片 - インタラクティブコンテンツ"></iframe>
+        </div>
+      </div>
+      <aside class="work-sidebar">
+        <div class="work-info">
+            <h1 class="work-title" id="work-title"></h1>
+            <h2 class="concept-title">コンセプト</h2>
+            <p class="concept-text" id="concept-text"></p>
+            <a href="concept.gslide" class="concept-link" download>コンセプトファイル (.gslide)</a>
+        </div>
+
+        <div class="concept-embed-placeholder">
+            <p>コンセプトドキュメント</p>
+            <span>(.gslide)</span>
+        </div>
+      </aside>
+    </div>
+    
+    <div class="comment-section">
+        <h2 class="comment-title">講師コメント</h2>
+        <p class="comment-text" id="comment-text"></p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="footer-notes">
+          <p>
+            <strong>● 写真について</strong><br>
+            掲載された作品写真・データは、各優秀賞受賞者が卒業・修了制作として<br>
+            提出したすべての作品を網羅しているものではありません。<br>
+            「卒業・修了制作展」の出品作品を中心として収録していますが、<br>
+            写真撮影は「卒業制作・修了制作優秀作品展」会場の場合もあります。
+          </p>
+        </div>
+      </div>
+      <div class="footer-right">
+        <a href="https://www.example-university.ac.jp" target="_blank" rel="noopener noreferrer" class="school-link">
+          <img src="../../../Thumbnails/logo.png" alt="XXX大学 ロゴ" class="school-logo">
+          <span>＞学校サイトへはこちらから</span>
+        </a>
+      </div>
+    </div>
+    <p class="copyright">&copy; XXX University. All Rights Reserved.</p>
+  </footer>
+
+  <script type="module" src="detail.js"></script>
+</body>
+</html>
