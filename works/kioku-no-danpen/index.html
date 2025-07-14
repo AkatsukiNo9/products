@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>記憶の断片 - XXX大学 卒業・修了制作展</title>
+  <title>XXX大学 卒業・修了制作展</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,14 +19,14 @@
       <nav class="breadcrumb">
         <a href="../../index.html?year=2024">2024</a>
         <span class="breadcrumb-separator">&gt;</span>
-        <span class="breadcrumb-current">記憶の断片</span>
+        <span class="breadcrumb-current"></span>
       </nav>
     </div>
   </header>
 
   <main>
     <div class="work-author-container">
-        <p class="work-author">作者：高橋 次郎</p>
+        <p class="work-author" id="work-author"></p>
     </div>
 
     <div class="main-content">
@@ -37,11 +37,9 @@
       </div>
       <aside class="work-sidebar">
         <div class="work-info">
-            <h1 class="work-title">記憶の断片</h1>
+            <h1 class="work-title" id="work-title"></h1>
             <h2 class="concept-title">コンセプト</h2>
-            <p class="concept-text">
-                バラバラになった記憶のカケラ。それらをつなぎ合わせることで、失われた全体像が浮かび上がる。このプロセスは、自己のアイデンティティを探求する旅のメタファーです。
-            </p>
+            <p class="concept-text" id="concept-text"></p>
             <a href="concept.gslide" class="concept-link" download>コンセプトファイル (.gslide)</a>
         </div>
 
@@ -54,9 +52,7 @@
     
     <div class="comment-section">
         <h2 class="comment-title">講師コメント</h2>
-        <p class="comment-text">
-            断片化されたイメージを再構築させるというインタラクティブな体験を通して、作者自身の内省的なテーマを見事に表現している。シンプルな操作性の中に、深い思索を促す力を持った作品である。技術的な完成度も高く、今後の更なる飛躍を期待させる。
-        </p>
+        <p class="comment-text" id="comment-text"></p>
     </div>
   </main>
 
@@ -83,5 +79,6 @@
     <p class="copyright">&copy; XXX University. All Rights Reserved.</p>
   </footer>
 
+  <script type="module" src="detail.js"></script>
 </body>
 </html>
