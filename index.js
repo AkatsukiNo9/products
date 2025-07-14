@@ -10,7 +10,7 @@ const works = [
     author: "高橋 次郎",
     title: "記憶の断片",
     Genre: "彫刻学科",
-    imageUrl: "Thumbnails/sample_4.png",
+    imageUrl: "works/2024/kioku-no-danpen/thumbnail.png",
     appUrl: "works/2024/kioku-no-danpen/"
   },
   {
