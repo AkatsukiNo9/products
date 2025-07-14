@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const response = await fetch('kioku-no-danpen.json');
+        const response = await fetch('summary.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
