@@ -34,6 +34,31 @@
         <div class="iframe-container">
           <iframe id="work-iframe" src="app/index.html" title="記憶の断片 - インタラクティブコンテンツ"></iframe>
         </div>
+        <!-- 全画面表示ボタンを追加 -->
+        <div class="fullscreen-btn-container" style="text-align:center; margin-top: 16px;">
+          <button id="fullscreen-btn" style="padding: 8px 20px; font-size: 1rem; cursor: pointer;">
+            全画面表示
+          </button>
+        </div>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const btn = document.getElementById("fullscreen-btn");
+            const iframe = document.getElementById("work-iframe");
+            btn.addEventListener("click", function () {
+              if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+              } else if (iframe.webkitRequestFullscreen) {
+                iframe.webkitRequestFullscreen();
+              } else if (iframe.mozRequestFullScreen) {
+                iframe.mozRequestFullScreen();
+              } else if (iframe.msRequestFullscreen) {
+                iframe.msRequestFullscreen();
+              } else {
+                alert("このブラウザでは全画面表示に対応していません");
+              }
+            });
+          });
+        </script>
       </div>
       <aside class="work-sidebar">
         <div class="work-info">
