@@ -7,11 +7,19 @@
 const works = [
   {
     year: 2025,
-    author: "ラーメン二郎",
+    author: "暁No.9",
     title: "インタラクティブシンセサイザー",
     Genre: "電子楽器",
     imageUrl: "works/2025/anogakki/thumbnail.png",
     appUrl: "works/2025/anogakki/"
+  },
+  {
+    year: 2025,
+    author: "暁No.9",
+    title: "良い感じにグリッドを引くツール",
+    Genre: "良い感じにグリッドを引くツール",
+    imageUrl: "works/2025/Grid_Drawer/thumbnail.png",
+    appUrl: "works/2025/Grid_Drawer/"
   },
   {
     year: 2024,
