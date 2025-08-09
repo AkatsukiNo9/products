@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ピクセルアート グリッドツール</title>
+  <link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>ピクセルアート グリッドツール</h1>
+      <p>ピクセルアートの画像にグリッド線を追加してダウンロードできます。</p>
+    </header>
+    <main class="main-content">
+      <div class="controls">
+        <h2>コントロール</h2>
+        <div class="control-group">
+          <label for="imageLoader" class="button-like-label">画像をアップロード</label>
+          <input type="file" id="imageLoader" accept="image/png, image/jpeg, image/gif" aria-label="画像ファイルをアップロード">
+          <span id="fileName">画像が選択されていません</span>
+        </div>
+        <div class="control-group">
+          <label for="gridSize">グリッド間隔: <span id="gridSizeValue">16</span>px</label>
+          <div class="grid-size-controls">
+            <input type="range" id="gridSize" min="2" max="128" value="16" aria-label="グリッド間隔をスライダーで調整">
+            <input type="number" id="gridSizeNumber" min="2" max="128" value="16" class="grid-size-input" aria-label="グリッド間隔を数値で入力">
+          </div>
+        </div>
+        <div class="control-group">
+          <button id="downloadBtn" disabled>グリッド画像をダウンロード</button>
+        </div>
+      </div>
+      <div class="previews-container">
+        <div id="previews" class="image-previews">
+            <div class="image-display">
+                <img id="originalImageView" alt="元画像プレビュー">
+                <p class="caption">元画像</p>
+            </div>
+            <div class="image-display">
+                <canvas id="canvas" aria-label="グリッド付き画像プレビュー"></canvas>
+                <p class="caption">グリッド追加画像</p>
+            </div>
+        </div>
+        <p id="canvasPlaceholder">ここに画像プレビューが表示されます</p>
+      </div>
+    </main>
+  </div>
+  <script src="index.js" type="module"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
