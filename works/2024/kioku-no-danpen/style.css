@@ -274,7 +274,7 @@ footer {
 /*        flex-direction: column-reverse; /* Put sidebar below main area */
         flex-direction: column; /* test */
     }
-    .work-sidebar {
+    .work-sidebar, .work-main-area {
         width: 100%;
     }
 }
