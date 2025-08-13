@@ -271,7 +271,8 @@ footer {
 /* Responsive */
 @media (max-width: 992px) {
     .main-content {
-        flex-direction: column-reverse; /* Put sidebar below main area */
+/*        flex-direction: column-reverse; /* Put sidebar below main area */
+        flex-direction: column; /* test */
     }
     .work-sidebar {
         width: 100%;
