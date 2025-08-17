@@ -146,6 +146,11 @@ main {
     align-items: stretch;
 }
 
+/* 以下を追加 */
+.work-details {
+  flex: 3; /* 左側の幅を広めに設定 */
+}
+
 .work-title {
     font-size: 2rem;
     font-weight: 700;
@@ -179,11 +184,15 @@ main {
 }
 
 .concept-embed-placeholder {
+    flex: 2; /* 右側の幅を設定 */
     border: 2px dashed #ccc;
     border-radius: 8px;
-    padding: 3rem 1rem;
-    text-align: center;
     background-color: #fff;
+    /* paddingは不要になることが多いので削除または調整 */
+    /* padding: 3rem 1rem; */
+    display: flex; /* iframeをコンテナいっぱいに広げるため */
+    align-items: center;
+    justify-content: center;
 }
 
 .concept-embed-placeholder p {
