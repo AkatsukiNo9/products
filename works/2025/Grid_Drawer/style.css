@@ -290,6 +290,9 @@ footer {
     .work-sidebar, .work-main-area {
         width: 100%;
     }
+    .work-info {
+        flex-direction: column; /* 画面が狭いときは縦積みに変更 */
+    }
 }
 
 @media (max-width: 768px) {
