@@ -16,7 +16,7 @@ const works = [
   {
     year: 2025,
     author: "暁No.9",
-    title: "良い感じにグリッドを引くツール",
+    title: "ピクセルアートにグリッドを引くツール",
     Genre: "ツール",
     imageUrl: "works/2025/Grid_Drawer/thumbnail.png",
     appUrl: "works/2025/Grid_Drawer/"
