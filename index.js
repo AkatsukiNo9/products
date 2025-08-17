@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 
-// 仮の作品データ
+// 作品データ
 const works = [
   {
     year: 2025,
@@ -20,96 +20,11 @@ const works = [
     Genre: "ツール",
     imageUrl: "works/2025/Grid_Drawer/thumbnail.png",
     appUrl: "works/2025/Grid_Drawer/"
-  },
-  {
-    year: 2024,
-    author: "高橋 次郎",
-    title: "記憶の断片",
-    Genre: "彫刻学科",
-    imageUrl: "works/2024/kioku-no-danpen/thumbnail.png",
-    appUrl: "works/2024/kioku-no-danpen/"
-  },
-  {
-    year: 2024,
-    author: "伊藤 三郎",
-    title: "光と影のダンス",
-    Genre: "デザイン情報学科",
-    imageUrl: "Thumbnails/sample_5.png"
-  },
-  {
-    year: 2024,
-    author: "渡辺 久美子",
-    title: "鉄の心臓",
-    Genre: "彫刻学科",
-    imageUrl: "Thumbnails/sample_6.png"
-  },
-  {
-    year: 2023,
-    author: "山本 良子",
-    title: "水中のささやき",
-    Genre: "油絵学科",
-    imageUrl: "Thumbnails/sample_7.png"
-  },
-  {
-    year: 2023,
-    author: "中村 健太",
-    title: "星屑のポートレート",
-    Genre: "視覚伝達デザイン学科",
-    imageUrl: "Thumbnails/sample_8.png"
-  },
-  {
-    year: 2023,
-    author: "小林 愛",
-    title: "都市の鼓動",
-    Genre: "デザイン情報学科",
-    imageUrl: "Thumbnails/sample_9.png"
-  },
-  {
-    year: 2022,
-    author: "加藤 誠",
-    title: "風の彫刻",
-    Genre: "彫刻学科",
-    imageUrl: "Thumbnails/sample_10.png"
-  },
-  {
-    year: 2022,
-    author: "吉田 沙羅",
-    title: "色の交響曲",
-    Genre: "油絵学科",
-    imageUrl: "Thumbnails/sample_11.png"
-  },
-  {
-    year: 2022,
-    author: "山田 大輔",
-    title: "サイバーパンク・ナイト",
-    Genre: "視覚伝達デザイン学科",
-    imageUrl: "Thumbnails/sample_12.png"
-  },
-  {
-    year: 2021,
-    author: "斎藤 一",
-    title: "時の流れ",
-    Genre: "油絵学科",
-    imageUrl: "Thumbnails/sample_13.png"
-  },
-  {
-    year: 2020,
-    author: "藤田 五郎",
-    title: "黎明",
-    Genre: "デザイン情報学科",
-    imageUrl: "Thumbnails/sample_14.png"
-  },
-  {
-    year: 2019,
-    author: "松本 恵",
-    title: "再生",
-    Genre: "彫刻学科",
-    imageUrl: "Thumbnails/sample_15.png"
-  },
+  }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  const years = [2025, 2024, 2023, 2022, 2021, 2020, 2019];
+  const years = [2025, 2024];
   
   // Check for year in URL query parameters
   const params = new URLSearchParams(window.location.search);
