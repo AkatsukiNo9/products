@@ -5,6 +5,7 @@
   --background-color: #ffffff;
   --border-color: #e0e0e0;
   --shadow-color: rgba(0, 0, 0, 0.1);
+  --success-color: #28a745;
 }
 
 body {
@@ -103,7 +104,7 @@ input[type="file"] {
 .grid-size-controls {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 input[type="range"] {
@@ -112,29 +113,28 @@ input[type="range"] {
   cursor: pointer;
 }
 
-.grid-size-input {
-    width: 60px;
-    padding: 8px;
-    font-size: 1rem;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-    text-align: center;
+input[type="range"]:disabled {
+  cursor: not-allowed;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+.size-input {
+  width: 70px;
+  padding: 6px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  text-align: right;
 }
 
-input[type=number] {
-  -moz-appearance: textfield;
+.size-input:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
 }
+
 
 button {
   width: 100%;
   padding: 12px 15px;
-  background-color: #28a745;
   color: white;
   border: none;
   border-radius: 4px;
@@ -144,10 +144,6 @@ button {
   transition: background-color 0.2s, transform 0.1s;
 }
 
-button:hover {
-  background-color: #218838;
-}
-
 button:active {
     transform: scale(0.98);
 }
@@ -155,6 +151,15 @@ button:active {
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+  transform: none;
+}
+
+#downloadBtn.download-button {
+  background-color: var(--success-color);
+}
+
+#downloadBtn.download-button:hover:not(:disabled) {
+  background-color: #218838;
 }
 
 .previews-container {
@@ -187,13 +192,48 @@ button:disabled {
   min-width: 0;
 }
 
-.image-display img,
-.image-display canvas {
+.image-display img {
   max-width: 100%;
   height: auto;
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: white;
+  image-rendering: pixelated; /* ピクセルをくっきり表示 */
+}
+
+.image-display canvas {
+  display: block; /* remove extra space below */
+  background-color: white;
+  image-rendering: pixelated; /* ピクセルをくっきり表示 */
+}
+
+.canvas-wrapper {
+  width: 100%;
+  max-height: 50vh;
+  overflow: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-image:
+    linear-gradient(45deg, #f0f0f0 25%, transparent 25%),
+    linear-gradient(-45deg, #f0f0f0 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f0f0f0 75%),
+    linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  background-color: white;
+}
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.zoom-controls .size-input {
+  width: 60px;
 }
 
 .caption {
@@ -204,10 +244,55 @@ button:disabled {
   text-align: center;
 }
 
-
 #canvasPlaceholder {
     color: #888;
 }
+
+.debug-graphs-container {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.debug-graphs-container h2 {
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.graph-pair {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.graph-wrapper {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.graph-wrapper canvas {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 500 / 200;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.period-display {
+  margin: 0.5rem 0;
+  font-weight: bold;
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+
 
 /* レスポンシブ対応 */
 @media (max-width: 900px) {
@@ -223,5 +308,9 @@ button:disabled {
   }
   .container {
     padding: 1rem;
+  }
+  .graph-pair {
+    flex-direction: column;
+    align-items: center;
   }
 }

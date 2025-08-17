@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ピクセルアート グリッドツール</title>
+  <title>画像グリッドツール</title>
   <link rel="stylesheet" href="index.css">
 <link rel="stylesheet" href="/index.css">
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>ピクセルアート グリッドツール</h1>
-      <p>ピクセルアートの画像にグリッド線を追加してダウンロードできます。</p>
+      <h1>画像グリッドツール</h1>
+      <p>画像にグリッド線を追加してダウンロードできます。</p>
     </header>
     <main class="main-content">
       <div class="controls">
@@ -21,31 +21,63 @@
           <input type="file" id="imageLoader" accept="image/png, image/jpeg, image/gif" aria-label="画像ファイルをアップロード">
           <span id="fileName">画像が選択されていません</span>
         </div>
+
         <div class="control-group">
-          <label for="gridSize">グリッド間隔: <span id="gridSizeValue">16</span>px</label>
+          <label for="pixelSize">グリッドサイズ: <span id="pixelSizeValue">16</span>px</label>
           <div class="grid-size-controls">
-            <input type="range" id="gridSize" min="2" max="128" value="16" aria-label="グリッド間隔をスライダーで調整">
-            <input type="number" id="gridSizeNumber" min="2" max="128" value="16" class="grid-size-input" aria-label="グリッド間隔を数値で入力">
+            <input type="range" id="pixelSize" min="2" max="32" value="16" step="0.001" aria-label="グリッドサイズをスライダーで調整" disabled>
+            <input type="number" id="pixelSizeInput" min="2" max="32" value="16" step="0.001" class="size-input" aria-label="グリッドサイズを数値で入力" disabled>
           </div>
         </div>
+        
         <div class="control-group">
-          <button id="downloadBtn" disabled>グリッド画像をダウンロード</button>
+            <label for="peakThreshold">ピーク検出の閾値: <span id="peakThresholdValue">0.19</span></label>
+            <div class="grid-size-controls">
+              <input type="range" id="peakThreshold" min="0.1" max="0.9" value="0.19" step="0.01" aria-label="ピーク検出の閾値をスライダーで調整" disabled>
+              <input type="number" id="peakThresholdInput" min="0.1" max="0.9" value="0.19" step="0.01" class="size-input" aria-label="ピーク検出の閾値を数値で入力" disabled>
+            </div>
+        </div>
+
+        <div class="control-group">
+          <button id="downloadBtn" class="download-button" disabled>グリッド付き画像をダウンロード</button>
         </div>
       </div>
       <div class="previews-container">
         <div id="previews" class="image-previews">
-            <div class="image-display">
+            <div class="image-display" id="original-image-container">
                 <img id="originalImageView" alt="元画像プレビュー">
                 <p class="caption">元画像</p>
             </div>
-            <div class="image-display">
-                <canvas id="canvas" aria-label="グリッド付き画像プレビュー"></canvas>
+            <div class="image-display" id="original-with-grid-image-container" style="display: none;">
+                <div class="canvas-wrapper">
+                  <canvas id="originalWithGridCanvas" aria-label="元画像（グリッド付き）プレビュー"></canvas>
+                </div>
                 <p class="caption">グリッド追加画像</p>
+                <div class="zoom-controls">
+                  <label for="zoomSlider">ズーム: <span id="zoomValue">100</span>%</label>
+                  <input type="range" id="zoomSlider" min="1" max="20" value="1" step="0.1" aria-label="ズームレベルをスライダーで調整" disabled>
+                  <input type="number" id="zoomInput" min="1" max="20" value="1" step="0.1" class="size-input" aria-label="ズームレベルを数値で入力" disabled>
+                </div>
             </div>
         </div>
         <p id="canvasPlaceholder">ここに画像プレビューが表示されます</p>
       </div>
     </main>
+    <div id="debugGraphsContainer" class="debug-graphs-container" style="display: none;">
+      <h2>自己相関グラフ（デバッグ用）</h2>
+      <div class="graph-pair">
+        <div class="graph-wrapper">
+          <p class="caption">水平方向 (X)</p>
+          <p class="period-display" id="corrXPeriod">基本周期: ---</p>
+          <canvas id="corrXGraph" width="500" height="200"></canvas>
+        </div>
+        <div class="graph-wrapper">
+          <p class="caption">垂直方向 (Y)</p>
+          <p class="period-display" id="corrYPeriod">基本周期: ---</p>
+          <canvas id="corrYGraph" width="500" height="200"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
   <script src="index.js" type="module"></script>
 <script type="module" src="/index.tsx"></script>
