@@ -17,10 +17,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (workAuthor) workAuthor.textContent = `作者：${data.author}`;
         if (workTitle) workTitle.textContent = data.title;
         if (breadcrumbCurrent) breadcrumbCurrent.textContent = data.title;
-        if (pageTitle) pageTitle.textContent = `${data.title} - XXX大学 卒業・修了制作展`;
+        if (pageTitle) pageTitle.textContent = `${data.title} - 暁ゲーム工房`;
         if (conceptText) conceptText.textContent = data.concept;
         if (commentText) commentText.textContent = data.comment;
-        if (iframeTitle) iframeTitle.title = `${data.title} - インタラクティブコンテンツ`;
+        if (iframeTitle) iframeTitle.title = `${data.title}`;
 
 
     } catch (error) {
