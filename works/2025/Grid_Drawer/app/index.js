@@ -7,17 +7,21 @@
 const imageLoader = document.getElementById('imageLoader');
 const fileNameSpan = document.getElementById('fileName');
 
-const pixelSizeSlider = document.getElementById('pixelSize');
 const pixelSizeInput = document.getElementById('pixelSizeInput');
 const pixelSizeValue = document.getElementById('pixelSizeValue');
+const pixelSizeDecrement = document.getElementById('pixelSizeDecrement');
+const pixelSizeIncrement = document.getElementById('pixelSizeIncrement');
 
-const peakThresholdSlider = document.getElementById('peakThreshold');
 const peakThresholdInput = document.getElementById('peakThresholdInput');
 const peakThresholdValue = document.getElementById('peakThresholdValue');
+const peakThresholdDecrement = document.getElementById('peakThresholdDecrement');
+const peakThresholdIncrement = document.getElementById('peakThresholdIncrement');
 
-const zoomSlider = document.getElementById('zoomSlider');
 const zoomInput = document.getElementById('zoomInput');
 const zoomValue = document.getElementById('zoomValue');
+const zoomDecrement = document.getElementById('zoomDecrement');
+const zoomIncrement = document.getElementById('zoomIncrement');
+
 
 const downloadBtn = document.getElementById('downloadBtn');
 
@@ -40,16 +44,12 @@ let gridOffset = { x: 0, y: 0 }; // グリッドの描画開始オフセット
 let peakDetectionThreshold = 0.19; // ピーク検出の閾値
 let zoomLevel = 1.0; // ズームレベル
 
-// スライダーの初期設定
-pixelSizeSlider.min = '2';
-pixelSizeSlider.max = '32';
-pixelSizeSlider.value = pixelSize.toString();
+// 入力フィールドの初期設定
 pixelSizeInput.min = '2';
 pixelSizeInput.max = '32';
 pixelSizeInput.value = pixelSize.toString();
 pixelSizeValue.textContent = pixelSize.toString();
 
-peakThresholdSlider.value = peakDetectionThreshold.toString();
 peakThresholdInput.value = peakDetectionThreshold.toString();
 peakThresholdValue.textContent = peakDetectionThreshold.toFixed(2);
 
@@ -61,7 +61,7 @@ peakThresholdValue.textContent = peakDetectionThreshold.toFixed(2);
  * @param {HTMLImageElement} img
  * @param {number} maxSize 許容される最大のグリッドサイズ
  * @param {number} peakThreshold ピーク検出の閾値
- * @returns {{size: number, offset: {x: number, y: number}, corrX: number[], corrY: number[], sizeX: (number|null), sizeY: (number|null)}|null} 推定されたグリッドサイズ、オフセット、およびデバッグ用の相関データ
+ * @returns {object | null} 推定されたグリッドサイズ、オフセット、およびデバッグ用の相関データ
  */
 function findOptimalGridSize(img, maxSize, peakThreshold) {
   const canvas = document.createElement('canvas');
@@ -241,7 +241,7 @@ function findOptimalGridSize(img, maxSize, peakThreshold) {
     return p + offset;
   };
 
-  const minGridSize = parseInt(pixelSizeSlider.min, 10) || 2;
+  const minGridSize = parseInt(pixelSizeInput.min, 10) || 2;
   const sizeX = findPeak(corrX, minGridSize, maxSize, peakThreshold);
   const sizeY = findPeak(corrY, minGridSize, maxSize, peakThreshold);
   
@@ -349,7 +349,7 @@ function autoSetGridSize() {
   const debugContainer = document.getElementById('debugGraphsContainer');
   debugContainer.style.display = 'block';
 
-  const maxAllowedSize = parseInt(pixelSizeSlider.max, 10);
+  const maxAllowedSize = parseInt(pixelSizeInput.max, 10);
   const optimalResult = findOptimalGridSize(originalImage, maxAllowedSize, peakDetectionThreshold);
 
   // 常にグラフを描画してデバッグしやすくする
@@ -380,7 +380,6 @@ function autoSetGridSize() {
     pixelSize = optimalResult.size;
     gridOffset = optimalResult.offset;
     const sizeStr = optimalResult.size.toFixed(3);
-    pixelSizeSlider.value = sizeStr;
     pixelSizeInput.value = sizeStr;
     pixelSizeValue.textContent = sizeStr;
   } else {
@@ -388,7 +387,6 @@ function autoSetGridSize() {
     const defaultSize = Math.min(16, maxAllowedSize);
     pixelSize = defaultSize;
     gridOffset = { x: 0, y: 0 };
-    pixelSizeSlider.value = defaultSize.toString();
     pixelSizeInput.value = defaultSize.toString();
     pixelSizeValue.textContent = defaultSize.toString();
   }
@@ -402,7 +400,7 @@ function autoSetGridSize() {
  * @param {number} w キャンバスの幅
  * @param {number} h キャンバスの高さ
  * @param {number} size グリッドのサイズ
- * @param {{x: number, y: number}} offset グリッドのオフセット
+ * @param {object} offset グリッドのオフセット
  */
 function drawGrid(ctx, w, h, size, offset) {
   ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
@@ -429,20 +427,26 @@ function drawGrid(ctx, w, h, size, offset) {
 function drawImageWithGrid() {
   if (!originalImage || !originalWithGridCtx) return;
 
+  // ズーム時にレイアウトが崩れないよう、スクロール可能なコンテナの高さを元画像の高さに固定する
+  const canvasWrapper = originalWithGridImageContainer.querySelector('.canvas-wrapper');
+  if (canvasWrapper && originalImageView.offsetHeight > 0) {
+    canvasWrapper.style.height = `${originalImageView.offsetHeight}px`;
+  }
+
   const w = originalImage.width;
   const h = originalImage.height;
 
-  // Set canvas dimensions based on zoom level. This also clears the canvas.
+  // ズームレベルに基づいてキャンバスの描画サイズを設定（これによりキャンバスがクリアされる）
   originalWithGridCanvas.width = w * zoomLevel;
   originalWithGridCanvas.height = h * zoomLevel;
   
-  // Disable anti-aliasing to keep pixels sharp when scaling
+  // 拡大時にピクセルがぼやけないようにアンチエイリアスを無効化
   originalWithGridCtx.imageSmoothingEnabled = false;
 
   // pixelSize が 0 以下にならないようにガード
   if (pixelSize <= 0) return;
 
-  // ===== Render image and grid with zoom =====
+  // ===== ズームを適用して画像とグリッドを描画 =====
   originalWithGridCtx.save();
   originalWithGridCtx.scale(zoomLevel, zoomLevel);
   
@@ -451,8 +455,6 @@ function drawImageWithGrid() {
   
   originalWithGridCtx.restore();
 
-  // Show the preview container
-  originalWithGridImageContainer.style.display = 'flex';
   downloadBtn.disabled = false;
 }
 
@@ -474,24 +476,24 @@ imageLoader.addEventListener('change', (event) => {
       originalImageView.src = img.src;
       originalImageView.style.aspectRatio = `${img.width} / ${img.height}`;
 
-      previews.style.display = 'flex';
+      previews.style.display = 'grid';
       canvasPlaceholder.style.display = 'none';
       
       // Reset zoom to 100% for new image
       zoomLevel = 1.0;
-      zoomSlider.value = '1';
       zoomInput.value = '1';
       zoomValue.textContent = '100';
       
       // グリッドサイズを自動設定 & 描画
       autoSetGridSize();
       
-      pixelSizeSlider.disabled = false;
-      pixelSizeInput.disabled = false;
-      peakThresholdSlider.disabled = false;
-      peakThresholdInput.disabled = false;
-      zoomSlider.disabled = false;
-      zoomInput.disabled = false;
+      // Enable all controls
+      const controlsToEnable = [
+        pixelSizeInput, pixelSizeDecrement, pixelSizeIncrement,
+        peakThresholdInput, peakThresholdDecrement, peakThresholdIncrement,
+        zoomInput, zoomDecrement, zoomIncrement
+      ];
+      controlsToEnable.forEach(control => control.disabled = false);
       
       fileNameSpan.textContent = file.name;
     };
@@ -505,85 +507,117 @@ imageLoader.addEventListener('change', (event) => {
   reader.readAsDataURL(file);
 });
 
-// グリッドサイズ変更時にリアルタイムで再描画する (スライダー)
-pixelSizeSlider.addEventListener('input', (event) => {
-  const newSize = parseFloat(event.target.value);
-  pixelSize = newSize;
-  const sizeStr = newSize.toFixed(3);
+/**
+ * 長押しで値を連続変更するステッパーのセットアップ
+ * @param {HTMLButtonElement} decrementBtn 減少ボタン
+ * @param {HTMLButtonElement} incrementBtn 増加ボタン
+ * @param {HTMLInputElement} input 数値入力フィールド
+ * @param {function(number): void} callback 値変更時に実行されるコールバック
+ */
+function setupStepper(decrementBtn, incrementBtn, input, callback) {
+  let intervalId = null;
+  let timeoutId = null;
+
+  const step = (direction) => {
+    const currentValue = parseFloat(input.value);
+    const stepValue = parseFloat(input.step) || 1;
+    let newValue = currentValue + stepValue * direction;
+    
+    const min = parseFloat(input.min);
+    const max = parseFloat(input.max);
+
+    const precision = input.step.includes('.') ? input.step.split('.')[1].length : 0;
+    
+    newValue = Math.max(min, Math.min(max, newValue));
+    
+    const roundedValue = parseFloat(newValue.toFixed(precision));
+    
+    if (parseFloat(input.value) !== roundedValue) {
+        input.value = roundedValue.toFixed(precision);
+        callback(roundedValue);
+    }
+  };
+
+  const startStepping = (direction) => {
+    stopStepping();
+    step(direction);
+    timeoutId = window.setTimeout(() => {
+      intervalId = window.setInterval(() => step(direction), 100);
+    }, 400);
+  };
+
+  const stopStepping = () => {
+    if (timeoutId) clearTimeout(timeoutId);
+    if (intervalId) clearInterval(intervalId);
+    timeoutId = null;
+    intervalId = null;
+  };
+
+  const addListeners = (btn, direction) => {
+    btn.addEventListener('mousedown', () => startStepping(direction));
+    btn.addEventListener('mouseup', stopStepping);
+    btn.addEventListener('mouseleave', stopStepping);
+    btn.addEventListener('touchstart', (e) => { e.preventDefault(); startStepping(direction); }, { passive: false });
+    btn.addEventListener('touchend', stopStepping);
+    btn.addEventListener('touchcancel', stopStepping);
+  };
+
+  addListeners(incrementBtn, 1);
+  addListeners(decrementBtn, -1);
+}
+
+
+// グリッドサイズ変更
+setupStepper(pixelSizeDecrement, pixelSizeIncrement, pixelSizeInput, (newValue) => {
+  pixelSize = newValue;
+  const sizeStr = newValue.toFixed(3);
   pixelSizeValue.textContent = sizeStr;
-  pixelSizeInput.value = sizeStr;
-  
-  // 手動変更時はオフセットをリセット
   gridOffset = { x: 0, y: 0 };
-  
   if (originalImage) {
-      drawImageWithGrid();
+    drawImageWithGrid();
   }
 });
-
-// グリッドサイズ変更時にリアルタイムで再描画する (数値入力)
 pixelSizeInput.addEventListener('input', (event) => {
     const newSize = parseFloat(event.target.value);
     if (isNaN(newSize)) return;
-
     pixelSize = newSize;
-    const sizeStr = newSize.toFixed(3);
-    pixelSizeValue.textContent = sizeStr;
-    pixelSizeSlider.value = newSize.toString();
-
-    // 手動変更時はオフセットをリセット
+    pixelSizeValue.textContent = newSize.toFixed(3);
     gridOffset = { x: 0, y: 0 };
-
     if (originalImage) {
         drawImageWithGrid();
     }
 });
 
-// ピーク閾値変更時にリアルタイムで再計算・再描画する (スライダー)
-peakThresholdSlider.addEventListener('input', (event) => {
-  const newThreshold = parseFloat(event.target.value);
-  peakDetectionThreshold = newThreshold;
-  const thresholdStr = newThreshold.toFixed(2);
-  peakThresholdValue.textContent = thresholdStr;
-  peakThresholdInput.value = newThreshold.toString();
-  
+
+// ピーク閾値変更
+setupStepper(peakThresholdDecrement, peakThresholdIncrement, peakThresholdInput, (newValue) => {
+  peakDetectionThreshold = newValue;
+  peakThresholdValue.textContent = newValue.toFixed(2);
   if (originalImage) {
-      autoSetGridSize(); // 再計算と再描画
+    autoSetGridSize();
   }
 });
-
-// ピーク閾値変更時にリアルタイムで再計算・再描画する (数値入力)
 peakThresholdInput.addEventListener('input', (event) => {
     const newThreshold = parseFloat(event.target.value);
     if (isNaN(newThreshold)) return;
-
     peakDetectionThreshold = newThreshold;
-    const thresholdStr = newThreshold.toFixed(2);
-    peakThresholdValue.textContent = thresholdStr;
-    peakThresholdSlider.value = newThreshold.toString();
-
+    peakThresholdValue.textContent = newThreshold.toFixed(2);
     if (originalImage) {
-        autoSetGridSize(); // 再計算と再描画
+        autoSetGridSize();
     }
 });
 
-// --- Zoom Controls ---
+// ズーム変更
 const handleZoomUpdate = (newZoom) => {
     zoomLevel = newZoom;
     const zoomPercent = Math.round(newZoom * 100);
     zoomValue.textContent = zoomPercent.toString();
-    zoomSlider.value = newZoom.toString();
-    zoomInput.value = newZoom.toString();
-
     if (originalImage) {
         drawImageWithGrid();
     }
 };
 
-zoomSlider.addEventListener('input', (event) => {
-    const newZoom = parseFloat(event.target.value);
-    handleZoomUpdate(newZoom);
-});
+setupStepper(zoomDecrement, zoomIncrement, zoomInput, handleZoomUpdate);
 
 zoomInput.addEventListener('input', (event) => {
     const newZoom = parseFloat(event.target.value);
@@ -592,6 +626,7 @@ zoomInput.addEventListener('input', (event) => {
     if (isNaN(newZoom) || newZoom < min || newZoom > max) return;
     handleZoomUpdate(newZoom);
 });
+
 
 // ダウンロードボタン
 downloadBtn.addEventListener('click', () => {
