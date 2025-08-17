@@ -141,6 +141,9 @@ main {
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex; /* 以下３つ、コンセプトpdfの埋め込み位置 */
+    gap: 2rem;
+    align-items: stretch;
 }
 
 .work-title {
