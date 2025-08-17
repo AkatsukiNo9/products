@@ -114,7 +114,7 @@ main {
 /* webアプリ領域の横幅の上限を 500px に固定する
     max-width: 500px;
 */
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 16 / 9; /* 横：縦 の比率を指定 */
     background-color: #ddd;
     border: 2px solid #333;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
