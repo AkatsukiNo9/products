@@ -10,8 +10,8 @@
 ```
 products/
 ├── works/
-│   └── 2024/
-│       └── kioku-no-danpen/
+│   └── 2025/
+│       └── Grid_Drawer/
 │           ├── concept.pdf (コンセプトや企画書)
 │           ├── detail.js
 │           ├── index.html
@@ -19,11 +19,11 @@ products/
 |           ├── summary.json (作品情報)
 |           ├── thumbnail.png (作品のサムネイル画像)
 │           └── app/
-│               ├── app.js
+│               ├── index.css
 │               ├── index.html
-│               └── style.css
+│               └── index.js
 ├── Thumbnails/
-│   └── logo.png (学校ロゴ)
+│   └── logo.png (ロゴ)
 │   └── slideshow_1.png（スライドショー画像１～５など共通で表示するもの）
 ├── README.md
 ├── index.js (作品のサマリーを追加するとこ)
@@ -35,20 +35,20 @@ products/
 ### ディレクトリ詳細
 
 - **works/**  
-  作品・プロジェクトの本体を格納するディレクトリ。年度ごと（例：2024）にサブディレクトリを作成し、その下に各作品のディレクトリを配置します。
+  作品・プロジェクトの本体を格納するディレクトリ。年度ごと（例：2025）にサブディレクトリを作成し、その下に各作品のディレクトリを配置します。
 
-  - **2024/**  
-    2024年度の作品をまとめるディレクトリ。
+  - **2025/**  
+    2025年度の作品をまとめるディレクトリ。
 
-    - **kioku-no-danpen/**  
-      「記憶の断片」作品のディレクトリ。  
+    - **Grid_Drawer/**  
+      「ピクセルアートにグリッドを引くツール」作品のディレクトリ。  
       - `index.html` … 作品詳細ページ  
       - `detail.js` … 作品情報取得・表示用のJavaScript  
       - `concept.pdf` … 作品コンセプトのPDF  
       - **app/** … インタラクティブコンテンツ（パズルなど）の実装
+        - `index.css` … アプリのスタイル
         - `index.html` … アプリ本体のHTML
-        - `style.css` … アプリのスタイル
-        - `script.js` … アプリのロジック
+        - `index.js` … アプリのロジック
 
 - **Thumbnails/**  
   各作品やサイトのロゴ・サムネイル画像を格納。
