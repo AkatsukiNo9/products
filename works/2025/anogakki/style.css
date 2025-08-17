@@ -111,8 +111,10 @@ main {
 .iframe-container {
     position: relative;
     width: 100%;
+/* webアプリ領域の横幅の上限を 500px に固定する
     max-width: 500px;
-    aspect-ratio: 1 / 1;
+*/
+    aspect-ratio: 16 / 9; /* 横：縦 の比率を指定 */
     background-color: #ddd;
     border: 2px solid #333;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -139,6 +141,14 @@ main {
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex; /* 以下３つ、コンセプトpdfの埋め込み位置 */
+    gap: 2rem;
+    align-items: stretch;
+}
+
+/* 以下を追加 */
+.work-details {
+  flex: 3; /* 左側の幅を広めに設定 */
 }
 
 .work-title {
@@ -174,11 +184,15 @@ main {
 }
 
 .concept-embed-placeholder {
+    flex: 2; /* 右側の幅を設定 */
     border: 2px dashed #ccc;
     border-radius: 8px;
-    padding: 3rem 1rem;
-    text-align: center;
     background-color: #fff;
+    /* paddingは不要になることが多いので削除または調整 */
+    /* padding: 3rem 1rem; */
+    display: flex; /* iframeをコンテナいっぱいに広げるため */
+    align-items: center;
+    justify-content: center;
 }
 
 .concept-embed-placeholder p {
@@ -275,6 +289,9 @@ footer {
     }
     .work-sidebar, .work-main-area {
         width: 100%;
+    }
+    .work-info {
+        flex-direction: column; /* 画面が狭いときは縦積みに変更 */
     }
 }
 
