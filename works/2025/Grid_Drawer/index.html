@@ -33,15 +33,19 @@
 <!-- ここに移動 -->
       <aside class="work-sidebar">
         <div class="work-info">
-          <h1 class="work-title" id="work-title"></h1>
-          <h2 class="concept-title">コンセプト</h2>
-          <p class="concept-text" id="concept-text"></p>
-          <a href="concept.pdf" class="concept-link" download="concept.pdf">コンセプトファイル (.pdf)</a>
-
+<!-- 左側のコンテンツをグループ化 -->
+          <div class="work-details">
+            <h1 class="work-title" id="work-title"></h1>
+            <h2 class="concept-title">コンセプト</h2>
+            <p class="concept-text" id="concept-text"></p>
+            <a href="concept.pdf" class="concept-link" download="concept.pdf">コンセプトファイル (.pdf)</a>
+          </div>
+<!-- 右側のコンテンツ -->
           <div class="concept-embed-placeholder">
             <iframe
               src="concept.pdf"
-              width="30%"
+              width="100%"
+              height="100%"
               style="border: none;"
               title="コンセプトドキュメント（PDF）"
             >
