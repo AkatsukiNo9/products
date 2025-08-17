@@ -101,29 +101,20 @@ input[type="file"] {
   word-break: break-all;
 }
 
-.grid-size-controls {
+.stepper {
   display: flex;
   align-items: center;
-  gap: 1rem;
-}
-
-input[type="range"] {
-  flex-grow: 1;
-  width: 100%;
-  cursor: pointer;
-}
-
-input[type="range"]:disabled {
-  cursor: not-allowed;
+  gap: 0.5rem;
 }
 
 .size-input {
-  width: 70px;
+  width: 100%;
+  flex-grow: 1;
   padding: 6px 8px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 0.9rem;
-  text-align: right;
+  text-align: center;
 }
 
 .size-input:disabled {
@@ -133,7 +124,6 @@ input[type="range"]:disabled {
 
 
 button {
-  width: 100%;
   padding: 12px 15px;
   color: white;
   border: none;
@@ -154,13 +144,39 @@ button:disabled {
   transform: none;
 }
 
-#downloadBtn.download-button {
+.download-button {
+  width: 100%;
   background-color: var(--success-color);
 }
 
-#downloadBtn.download-button:hover:not(:disabled) {
+.download-button:hover:not(:disabled) {
   background-color: #218838;
 }
+
+.stepper-btn {
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  padding: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: 1px solid var(--border-color);
+  background-color: #fff;
+  color: var(--primary-color);
+  line-height: 1; /* for vertical centering */
+}
+
+.stepper-btn:hover:not(:disabled) {
+  background-color: var(--secondary-color);
+}
+
+.stepper-btn:disabled {
+  color: #ccc;
+  border-color: #e0e0e0;
+  background-color: #f9f9f9;
+}
+
 
 .previews-container {
   flex: 3;
@@ -179,17 +195,18 @@ button:disabled {
   display: none;
   width: 100%;
   gap: 1.5rem;
-  justify-content: space-around;
-  align-items: flex-start;
+  grid-template-columns: 1fr 1fr;
+  /* 高さを揃えるために stretch に変更 */
+  align-items: stretch;
 }
 
 .image-display {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
   min-width: 0;
+  overflow: hidden; /* Prevent content from stretching the container */
 }
 
 .image-display img {
@@ -209,7 +226,6 @@ button:disabled {
 
 .canvas-wrapper {
   width: 100%;
-  max-height: 50vh;
   overflow: auto;
   border: 1px solid var(--border-color);
   border-radius: 4px;
@@ -225,11 +241,17 @@ button:disabled {
 
 .zoom-controls {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.75rem;
   justify-content: center;
   width: 100%;
+}
+
+.zoom-controls .stepper {
+  width: 100%;
+  max-width: 200px;
 }
 
 .zoom-controls .size-input {
@@ -297,8 +319,7 @@ button:disabled {
 /* レスポンシブ対応 */
 @media (max-width: 900px) {
   #previews {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr;
   }
 }
 
