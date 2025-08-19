@@ -1,0 +1,194 @@
+:root {
+    --background-color: #000000;
+    --text-color: #00ff41;
+    --user-text-color: #66ccff;
+    --border-color: #00ff41;
+    --font-family: 'monospace', 'Courier New', Courier;
+    --scrollbar-bg: #222;
+    --scrollbar-thumb: #555;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    font-size: 16px;
+}
+
+#app-container {
+    display: flex;
+    height: 100vh;
+    padding: 8px;
+    gap: 8px;
+}
+
+/* Panels */
+#main-panel {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--border-color);
+    overflow: hidden;
+    gap: 2px;
+}
+
+#log-panel {
+    flex-grow: 1;
+    padding: 0.5rem 1rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#prompt-panel {
+    flex-shrink: 0;
+    border-top: 2px solid var(--border-color);
+    padding: 0.5rem 1rem;
+}
+
+#character-panel {
+    width: 200px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+}
+
+/* Log Area */
+#log {
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+#log::-webkit-scrollbar {
+    width: 10px;
+}
+
+#log::-webkit-scrollbar-track {
+    background: var(--background-color);
+    border-left: 1px solid var(--border-color);
+}
+
+#log::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border: 1px solid var(--border-color);
+}
+
+.message-line {
+    display: flex;
+    align-items: baseline;
+}
+.message-line .content {
+    display: inline;
+}
+
+.system-message {
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+.user-message .prefix {
+    color: var(--user-text-color);
+}
+.user-message .content {
+    color: var(--user-text-color);
+}
+
+.prefix {
+    margin-right: 0.5rem;
+    white-space: pre;
+}
+
+/* Prompt Area */
+#prompt-form {
+    display: flex;
+    align-items: center;
+}
+
+.prompt-symbol {
+    margin-right: 0.5rem;
+}
+
+#prompt-input {
+    flex-grow: 1;
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    padding: 0;
+}
+
+#prompt-cursor {
+    width: 0.5em;
+    background-color: var(--text-color);
+    animation: blink 1s step-end infinite;
+    display: inline-block;
+    height: 1.2em;
+    margin-right: 0.5rem;
+}
+
+#prompt-input:focus + #prompt-cursor,
+#prompt-input:not(:placeholder-shown) + #prompt-cursor {
+    display: none;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+#prompt-input:disabled {
+    opacity: 0.5;
+}
+
+/* Character Area */
+#character-box {
+    border: 2px solid var(--border-color);
+    padding: 4px;
+    background-color: var(--text-color);
+    margin-bottom: 2rem;
+}
+#character-image {
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated; /* Keep pixel art sharp */
+    display: block;
+    filter: grayscale(1) brightness(0.6) sepia(1) hue-rotate(80deg) saturate(500%);
+}
+
+#character-name {
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #app-container {
+        flex-direction: column;
+    }
+    #character-panel {
+        width: 100%;
+        height: auto;
+        order: -1; /* Move to top */
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+    #character-box {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 0;
+    }
+}

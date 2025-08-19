@@ -20,6 +20,14 @@ const works = [
     Genre: "ツール",
     imageUrl: "works/2025/Grid_Drawer/thumbnail.png",
     appUrl: "works/2025/Grid_Drawer/"
+  },
+  {
+    year: 2025,
+    author: "暁No.9",
+    title: "あるAIの記録",
+    Genre: "UIデザイン",
+    imageUrl: "works/2025/Spectra_Communicator/thumbnail.png",
+    appUrl: "works/2025/Spectra_Communicator/"
   }
 ];
 
