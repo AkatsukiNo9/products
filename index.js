@@ -67,8 +67,8 @@ function getQueryParam(param) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const years = ["協力作品", 2024, 2023, 2022, 2021, 2020, 2019];
-  const defaultYear = 2024;
+  const years = [2025, "協力作品"];
+  const defaultYear = 2025;
   
   // URLパラメータを堅牢な方法で取得
   const yearFromUrl = getQueryParam('year');
