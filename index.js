@@ -38,7 +38,7 @@ const works = [
     appUrl: "works/gakusei/sudoku/"
   },
 ];
-
+/*
 document.addEventListener('DOMContentLoaded', () => {
   const years = [2025, 2024, "協力作品"];
   
@@ -46,7 +46,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const yearFromUrl = parseInt(params.get('year') || '', 10);
   let currentYear = years.includes(yearFromUrl) ? yearFromUrl : 2025;
+*/
 
+/**
+ * URLのクエリパラメータを環境依存なく取得する関数
+ * @param {string} param 取得したいパラメータ名
+ * @returns {string | null} パラメータの値、または存在しない場合はnull
+ */
+function getQueryParam(param) {
+  const query = window.location.search.substring(1);
+  const vars = query.split('&');
+  for (let i = 0; i < vars.length; i++) {
+    const pair = vars[i].split('=');
+    if (decodeURIComponent(pair[0]) === param) {
+      // 値がない場合も考慮し、デコードする
+      return decodeURIComponent(pair[1] ? pair[1].replace(/\+/g, ' ') : '');
+    }
+  }
+  return null;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const years = ["協力作品", 2024, 2023, 2022, 2021, 2020, 2019];
+  const defaultYear = 2024;
+  
+  // URLパラメータを堅牢な方法で取得
+  const yearFromUrl = getQueryParam('year');
+  
+  // URLのパラメータを元に、表示する年を決定
+  let currentYear = defaultYear; // デフォルト値を設定
+  if (yearFromUrl) {
+    // years配列にURLパラメータの値が存在するかチェック
+    const foundYear = years.find(y => y.toString() === yearFromUrl);
+    if (foundYear !== undefined) {
+      currentYear = foundYear; // 存在すればcurrentYearを更新
+    }
+  }
+// ここまで
   const yearSelector = document.getElementById('year-selector');
   const selectedYearEl = document.getElementById('selected-year');
   const yearDropdown = document.getElementById('year-dropdown');
