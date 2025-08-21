@@ -28,11 +28,19 @@ const works = [
     Genre: "UIデザイン",
     imageUrl: "works/2025/Spectra_Communicator/thumbnail.png",
     appUrl: "works/2025/Spectra_Communicator/"
-  }
+  },
+	{
+    year: 2025,
+    author: "蒼",
+    title: "数独パズル",
+    Genre: "パズル",
+    imageUrl: "works/2025/sudoku/thumbnail.png",
+    appUrl: "works/2025/sudoku/"
+  },
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  const years = [2025, 2024];
+  const years = [2025, 2024, 学生作品];
   
   // Check for year in URL query parameters
   const params = new URLSearchParams(window.location.search);

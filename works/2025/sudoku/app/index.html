@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数独パズル</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="app-container">
+        <header>
+            <h1>数独パズル</h1>
+        </header>
+        <main>
+            <div id="difficulty-selector" role="radiogroup" aria-labelledby="difficulty-label">
+                <h2 id="difficulty-label">難易度を選ぶ</h2>
+                <div>
+                    <button class="difficulty-btn" data-difficulty="初級" role="radio" aria-checked="false">初級</button>
+                    <button class="difficulty-btn active" data-difficulty="中級" role="radio" aria-checked="true">中級</button>
+                    <button class="difficulty-btn" data-difficulty="上級" role="radio" aria-checked="false">上級</button>
+                    <button class="difficulty-btn" data-difficulty="達人" role="radio" aria-checked="false">達人</button>
+                </div>
+            </div>
+            <div id="sudoku-board" aria-label="数独盤"></div>
+            <div id="controls" role="toolbar" aria-label="ゲーム操作">
+                <button id="new-game-btn">新しいゲーム</button>
+                <button id="memo-btn">メモ</button>
+                <button id="hint-btn">ヒント</button>
+                <button id="solve-btn">解答を見る</button>
+            </div>
+            <div id="game-info">
+                <span class="info-item">
+                    <span>間違い: </span><span id="mistakes-count">0 / 3</span>
+                </span>
+                <span class="info-item">
+                    <span>ヒント: </span><span id="hints-count">0 / 5</span>
+                </span>
+            </div>
+            <div id="status" role="status" aria-live="polite"></div>
+        </main>
+        <div id="loader-overlay" class="hidden">
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <script type="module" src="index.js"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+:root {
+    --board-size: min(90vw, 540px);
+    --cell-size: calc(var(--board-size) / 9);
+    --border-light: #d1d5db;
+    --border-dark: #6b7280;
+    --primary-color: #4f46e5;
+    --primary-hover-color: #4338ca;
+    --background-color: #f3f4f6;
+    --text-color: #111827;
+    --fixed-cell-bg: #e5e7eb;
+    --correct-color: #10b981;
+    --incorrect-color: #ef4444;
+    --memo-text-color: #374151;
+    --font-family: 'Noto Sans JP', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    font-size: 1.1rem;
+    color: #4b5563;
+    margin-top: 0;
+}
+
+#difficulty-selector {
+    margin: 2rem auto 1.5rem;
+}
+
+#difficulty-selector h2 {
+    font-size: 1.2rem;
+    color: #4b5563;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+}
+
+#difficulty-selector div {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.difficulty-btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+    border: 2px solid var(--primary-color);
+    background-color: white;
+    color: var(--primary-color);
+}
+
+.difficulty-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.difficulty-btn:not(.active):hover {
+    background-color: #eef2ff;
+    transform: translateY(-2px);
+}
+
+.difficulty-btn:disabled {
+    background-color: #e5e7eb;
+    color: #9ca3af;
+    border-color: #d1d5db;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+#sudoku-board {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    width: var(--board-size);
+    height: var(--board-size);
+    margin: 0 auto 2rem;
+    border: 3px solid var(--border-dark);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(1rem, calc(var(--cell-size) / 2), 1.8rem);
+    border: 1px solid var(--border-light);
+    box-sizing: border-box;
+    position: relative;
+}
+
+.cell:nth-child(3n) {
+    border-right: 2px solid var(--border-dark);
+}
+
+.cell:nth-child(9n) {
+    border-right: none;
+}
+
+.cell:nth-child(n+19):nth-child(-n+27),
+.cell:nth-child(n+46):nth-child(-n+54) {
+    border-bottom: 2px solid var(--border-dark);
+}
+
+.fixed-cell {
+    background-color: var(--fixed-cell-bg);
+    font-weight: bold;
+}
+
+.input-cell {
+    padding: 0;
+    border: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: inherit;
+    font-family: inherit;
+    background-color: transparent;
+    color: var(--primary-color);
+    caret-color: var(--primary-color);
+    transition: background-color 0.2s, color 0.2s;
+    position: relative;
+    z-index: 2;
+}
+
+.input-cell:focus {
+    outline: 2px solid var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.input-cell.correct {
+    background-color: #d1fae5;
+    color: var(--correct-color);
+    font-weight: bold;
+}
+
+.input-cell.incorrect {
+    background-color: #fee2e2;
+    color: var(--incorrect-color);
+    font-weight: bold;
+    animation: shake 0.5s;
+}
+
+.memo-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.memo-number {
+    font-size: clamp(0.5rem, calc(var(--cell-size) / 10), 0.75rem);
+    color: var(--memo-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+
+/* Hide number input spinners */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+#controls button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+#controls button:hover:not(:disabled) {
+    background-color: var(--primary-hover-color);
+    transform: translateY(-2px);
+}
+
+#controls button.active {
+    background-color: var(--primary-hover-color);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    transform: translateY(0);
+}
+
+#controls button:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#game-info {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.info-item span:first-child {
+    color: #4b5563;
+}
+
+#mistakes-count {
+    color: var(--incorrect-color);
+}
+
+#hints-count {
+    color: var(--primary-color);
+}
+
+#status {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    min-height: 1.5rem;
+    color: #4b5563;
+}
+
+#loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    border-radius: 12px;
+}
+
+#loader-overlay.hidden {
+    display: none;
+}
+
+.spinner {
+    width: 56px;
+    height: 56px;
+    border: 8px solid var(--border-light);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
