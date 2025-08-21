@@ -30,7 +30,7 @@ const works = [
     appUrl: "works/2025/Spectra_Communicator/"
   },
 	{
-    year: 2025,
+    year: "学生作品",
     author: "蒼",
     title: "数独パズル",
     Genre: "パズル",
