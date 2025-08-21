@@ -40,7 +40,7 @@ const works = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  const years = [2025, 2024, 学生作品];
+  const years = [2025, 2024, "学生作品"];
   
   // Check for year in URL query parameters
   const params = new URLSearchParams(window.location.search);
