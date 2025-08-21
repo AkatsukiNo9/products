@@ -34,7 +34,7 @@ const works = [
     author: "蒼",
     title: "数独パズル",
     Genre: "パズル",
-    imageUrl: "works/2025/gakusei/thumbnail.png",
+    imageUrl: "works/gakusei/sudoku/thumbnail.png",
     appUrl: "works/gakusei/sudoku/"
   },
 ];
