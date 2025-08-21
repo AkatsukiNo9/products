@@ -30,7 +30,7 @@ const works = [
     appUrl: "works/2025/Spectra_Communicator/"
   },
 	{
-    year: "協力作品",
+    year: "collabo",
     author: "蒼",
     title: "数独パズル",
     Genre: "パズル",
@@ -40,7 +40,7 @@ const works = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  const years = [2025, "協力作品"];
+  const years = [2025, "collabo"];
   
   // Check for year in URL query parameters
   const params = new URLSearchParams(window.location.search);
@@ -52,6 +52,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearDropdown = document.getElementById('year-dropdown');
   const galleryGrid = document.getElementById('gallery-grid');
 
+  /**
+   * 内部IDから表示名を取得する関数
+   * @param {string | number} yearValue 
+   * @returns {string} 表示用の年度名
+   */
+  const getYearDisplayName = (yearValue) => {
+    return yearValue === 'collaboration' ? '協力作品' : yearValue.toString();
+  };
+	
   const renderGallery = (year) => {
     if (!galleryGrid) return;
     galleryGrid.innerHTML = ''; // Clear existing items
