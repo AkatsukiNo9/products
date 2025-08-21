@@ -41,7 +41,46 @@ const works = [
 
 document.addEventListener('DOMContentLoaded', () => {
   const years = [2025, "collabo"];
+
+  /**
+   * 内部IDから表示名を取得する関数
+   * @param {string | number} yearValue 
+   * @returns {string} 表示用の年度名
+   */
+  const getYearDisplayName = (yearValue) => {
+    return yearValue === 'collabo' ? '協力作品' : yearValue.toString();
+  };
   
+  /**
+   * URLのクエリパラメータから有効な年度を取得する関数
+   * @returns {string | number | null} 年度、またはnull
+   */
+  const getYearFromUrl = () => {
+    const params = new URLSearchParams(window.location.search);
+    const yearParam = params.get('year');
+    
+    if (yearParam === 'collabo') {
+      return 'collabo';
+    }
+    
+    // yearParamが数値に変換できるかチェックし、years配列に含まれるか確認
+    const yearNum = parseInt(yearParam || '', 10);
+    if (!isNaN(yearNum) && years.includes(yearNum)) {
+      return yearNum;
+    }
+    
+    return null;
+  };
+
+  // URLから年度を取得し、なければデフォルト値を設定
+  let currentYear = getYearFromUrl() || 2025;
+
+  const yearSelector = document.getElementById('year-selector');
+  const selectedYearEl = document.getElementById('selected-year');
+  const yearDropdown = document.getElementById('year-dropdown');
+  const galleryGrid = document.getElementById('gallery-grid');
+	
+	/*  
   // Check for year in URL query parameters
   const params = new URLSearchParams(window.location.search);
   const yearFromUrl = parseInt(params.get('year') || '', 10);
@@ -52,15 +91,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearDropdown = document.getElementById('year-dropdown');
   const galleryGrid = document.getElementById('gallery-grid');
 
-  /**
+  /*
    * 内部IDから表示名を取得する関数
    * @param {string | number} yearValue 
    * @returns {string} 表示用の年度名
    */
-  const getYearDisplayName = (yearValue) => {
+/*  const getYearDisplayName = (yearValue) => {
     return yearValue === 'collabo' ? '協力作品' : yearValue.toString();
   };
-	
+*/	
   const renderGallery = (year) => {
     if (!galleryGrid) return;
     galleryGrid.innerHTML = ''; // Clear existing items
