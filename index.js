@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * @returns {string} 表示用の年度名
    */
   const getYearDisplayName = (yearValue) => {
-    return yearValue === 'collaboration' ? '協力作品' : yearValue.toString();
+    return yearValue === 'collabo' ? '協力作品' : yearValue.toString();
   };
 	
   const renderGallery = (year) => {
