@@ -41,18 +41,8 @@ const works = [
 
 document.addEventListener('DOMContentLoaded', () => {
   const years = [2025, "collabo"];
-  
-  // Check for year in URL query parameters
-  const params = new URLSearchParams(window.location.search);
-  const yearFromUrl = parseInt(params.get('year') || '', 10);
-  let currentYear = years.includes(yearFromUrl) ? yearFromUrl : 2025;
 
-  const yearSelector = document.getElementById('year-selector');
-  const selectedYearEl = document.getElementById('selected-year');
-  const yearDropdown = document.getElementById('year-dropdown');
-  const galleryGrid = document.getElementById('gallery-grid');
-
-  /*
+  /**
    * 内部IDから表示名を取得する関数
    * @param {string | number} yearValue 
    * @returns {string} 表示用の年度名
@@ -60,6 +50,35 @@ document.addEventListener('DOMContentLoaded', () => {
   const getYearDisplayName = (yearValue) => {
     return yearValue === 'collabo' ? '協力作品' : yearValue.toString();
   };
+  
+  /**
+   * URLのクエリパラメータから有効な年度を取得する関数
+   * @returns {string | number | null} 年度、またはnull
+   */
+  const getYearFromUrl = () => {
+    const params = new URLSearchParams(window.location.search);
+    const yearParam = params.get('year');
+    
+    if (yearParam === 'collabo') {
+      return 'collabo';
+    }
+    
+    // yearParamが数値に変換できるかチェックし、years配列に含まれるか確認
+    const yearNum = parseInt(yearParam || '', 10);
+    if (!isNaN(yearNum) && years.includes(yearNum)) {
+      return yearNum;
+    }
+    
+    return null;
+  };
+
+  // URLから年度を取得し、なければデフォルト値を設定
+  let currentYear = getYearFromUrl() || 2025;
+
+  const yearSelector = document.getElementById('year-selector');
+  const selectedYearEl = document.getElementById('selected-year');
+  const yearDropdown = document.getElementById('year-dropdown');
+  const galleryGrid = document.getElementById('gallery-grid');
 
   const renderGallery = (year) => {
     if (!galleryGrid) return;
@@ -107,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     years.forEach(year => {
       const option = document.createElement('div');
       option.className = 'year-option';
-      option.textContent = year.toString();
+      option.textContent = getYearDisplayName(year); // Use display name
       option.setAttribute('data-year', year.toString());
       option.setAttribute('role', 'menuitem');
       if (year === currentYear) {
@@ -117,14 +136,13 @@ document.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation();
         currentYear = year;
         if (selectedYearEl) {
-            selectedYearEl.textContent = year.toString();
+            selectedYearEl.textContent = getYearDisplayName(currentYear); // Use display name
         }
         // Update URL without reloading the page
         const newUrl = `${window.location.pathname}?year=${currentYear}`;
         window.history.pushState({path:newUrl}, '', newUrl);
 
         renderGallery(currentYear);
-        updateDropdown(); // Re-render to update selected state
         toggleDropdown(false);
       });
       yearDropdown.appendChild(option);
@@ -143,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (yearSelector) {
     if(selectedYearEl) {
-      selectedYearEl.textContent = currentYear.toString();
+      selectedYearEl.textContent = getYearDisplayName(currentYear); // Use display name for initial load
     }
     yearSelector.addEventListener('click', (e) => {
         e.stopPropagation();
