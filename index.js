@@ -30,17 +30,17 @@ const works = [
     appUrl: "works/2025/Spectra_Communicator/"
   },
 	{
-    year: "学生作品",
+    year: "協力作品",
     author: "蒼",
     title: "数独パズル",
     Genre: "パズル",
-    imageUrl: "works/2025/sudoku/thumbnail.png",
-    appUrl: "works/2025/sudoku/"
+    imageUrl: "works/2025/gakusei/thumbnail.png",
+    appUrl: "works/gakusei/sudoku/"
   },
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  const years = [2025, 2024, "学生作品"];
+  const years = [2025, 2024, "協力作品"];
   
   // Check for year in URL query parameters
   const params = new URLSearchParams(window.location.search);
