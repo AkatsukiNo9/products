@@ -65,5 +65,7 @@ products/
 - products/index.js へ作品カードを追加してください。他のカードの json をコピーして追加できます。
 - 静的なWebコンテンツやPDF、画像、JSなどを整理・管理しています。
 - GitHub Pagesで公開する場合は、公開ディレクトリやパスに注意してください。
-
+- git pull origin main -> git add . -> git commit -m "message" -> git push origin main の順番！
+- git status で状態確認。
+- app/ 以下に追加するファイルは「.js である」「AI機能がない」「相対パスで参照」を確認すること！
 ---

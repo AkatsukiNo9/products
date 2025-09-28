@@ -47,13 +47,13 @@ import { initializeAndStartGame } from './game.js';
 // --- Initialization ---
 async function loadConfigAndInit() {
     try {
-        const response = await fetch('/game-config.json');
+        const response = await fetch('./game-config.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         gameConfig = await response.json();
 
-        const bossResponse = await fetch('/boss-config.json');
+        const bossResponse = await fetch('./boss-config.json');
         if (!bossResponse.ok) {
             throw new Error(`HTTP error! status: ${bossResponse.status}`);
         }
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', loadConfigAndInit);
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('./sw.js')
       .then(registration => console.log('ServiceWorker registration successful with scope: ', registration.scope))
       .catch(error => console.log('ServiceWorker registration failed: ', error));
   });

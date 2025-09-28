@@ -40,7 +40,7 @@ export async function initializeMapData(config) {
     };
 
     try {
-        const manifestResponse = await fetch('/maps/manifest.json');
+        const manifestResponse = await fetch('./maps/manifest.json');
         if (!manifestResponse.ok) {
             throw new Error(`Failed to fetch map manifest: ${manifestResponse.statusText}`);
         }
@@ -48,7 +48,7 @@ export async function initializeMapData(config) {
         const roomFiles = manifest.rooms;
 
         const fetchPromises = roomFiles.map(fileName => 
-            fetch(`/maps/${fileName}`).then(res => {
+            fetch(`./maps/${fileName}`).then(res => {
                 if (!res.ok) {
                     throw new Error(`Failed to fetch room data: ${fileName} - ${res.statusText}`);
                 }
