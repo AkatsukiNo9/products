@@ -1,0 +1,22 @@
+
+{
+  "rooms": [
+    "start_area.json",
+    "field_area.json",
+    "field_west.json",
+    "field_south.json",
+    "room1.json",
+    "room2.json",
+    "room3.json",
+    "room4.json",
+    "dungeon_entry_hall.json",
+    "dungeon_main_chamber.json",
+    "dungeon_treasure_room.json",
+    "village_area.json",
+    "secret_room.json",
+    "secret_boss_room.json",
+    "arena.json",
+    "final_boss_chamber.json",
+    "abyss_chamber.json"
+  ]
+}

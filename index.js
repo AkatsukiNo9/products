@@ -37,6 +37,14 @@ const works = [
     imageUrl: "works/gakusei/sudoku/thumbnail.png",
     appUrl: "works/gakusei/sudoku/"
   },
+  {
+    year: "collabo",
+    author: "R",
+    title: "小さな勇者",
+    Genre: "ARPG",
+    imageUrl: "works/gakusei/little_brave/thumbnail.png",
+    appUrl: "works/gakusei/little_brave/"
+  },
 ];
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #202020;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+  overflow: hidden; /* Prevents scrollbars */
+}
+
+.container {
+  display: flex; /* Keeps canvas centered if needed, but body handles it now */
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #4a4a4a; /* Border around the canvas */
+  box-shadow: 0 0 15px rgba(0,0,0,0.7); /* Slightly more pronounced shadow */
+  /* The canvas itself will dictate the size */
+}
+
+#gameCanvas {
+  /* background-color is set in JS or by map drawing */
+  display: block; /* Removes extra space below canvas if it were inline */
+  image-rendering: -moz-crisp-edges; /* Firefox */
+  image-rendering: -webkit-crisp-edges; /* Chrome, Safari, Opera */
+  image-rendering: pixelated; /* Standard */
+  image-rendering: crisp-edges; /* Fallback/Edge */
+  outline: 1px solid #101010; /* Inner border for definition if needed */
+}

@@ -1,0 +1,24 @@
+
+{
+  "name": "小さな勇者",
+  "short_name": "小さな勇者",
+  "description": "A simple 2D adventure game inspired by The Legend of Zelda.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#202020",
+  "theme_color": "#008080",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
