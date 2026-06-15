@@ -56,7 +56,7 @@ const works = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  const years = [2025, "collabo"];
+  const years = [2026, 2025, "collabo"];
 
   /**
    * 内部IDから表示名を取得する関数
@@ -88,8 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
     return null;
   };
 
-  // URLから年度を取得し、なければデフォルト値を設定
-  let currentYear = getYearFromUrl() || 2025;
+  // URLから年度を取得し、なければデフォルト値(先頭要素)を設定
+  let currentYear = getYearFromUrl() || years[0];
 
   const yearSelector = document.getElementById('year-selector');
   const selectedYearEl = document.getElementById('selected-year');
