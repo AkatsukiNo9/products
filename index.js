@@ -6,6 +6,14 @@
 // 作品データ
 const works = [
   {
+    year: 2026,
+    author: "暁No.9",
+    title: "民主主義は今日も健全です",
+    Genre: "タワーディフェンス",
+    imageUrl: "works/2026/TD_gd/thumbnail.png",
+    appUrl: "works/2026/TD_gd/"
+  },
+  {
     year: 2025,
     author: "暁No.9",
     title: "インタラクティブシンセサイザー",
